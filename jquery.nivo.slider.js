@@ -1,5 +1,5 @@
 /*
- * jQuery Nivo Slider v1.7
+ * jQuery Nivo Slider v1.8
  * http://nivo.dev7studios.com
  *
  * Copyright 2010, Gilbert Pellegrom
@@ -95,8 +95,8 @@
 			
 			//Create caption
 			slider.append(
-				$('<div class="nivo-caption"><p></p></div>').css('display','none')
-			);
+				$('<div class="nivo-caption"><p></p></div>').css({ display:'none', opacity:settings.captionOpacity })
+			);			
 			//Process initial  caption
 			if(vars.currentImage.attr('title') != ''){
 				$('.nivo-caption p', slider).html(vars.currentImage.attr('title'));					
@@ -160,6 +160,27 @@
 				});
 			}
 			
+			//Keyboard Navigation
+			if(settings.keyboardNav){
+				$(window).keypress(function(event){
+					//Left
+					if(event.keyCode == '37'){
+						if(vars.running) return false;
+						clearInterval(timer);
+						timer = '';
+						vars.currentSlide-=2;
+						nivoRun(slider, kids, settings, 'prev');
+					}
+					//Right
+					if(event.keyCode == '39'){
+						if(vars.running) return false;
+						clearInterval(timer);
+						timer = '';
+						nivoRun(slider, kids, settings, 'next');
+					}
+				});
+			}
+			
 			//For pauseOnHover setting
 			if(settings.pauseOnHover){
 				slider.hover(function(){
@@ -217,7 +238,11 @@
 				}
 			}
 			vars.currentSlide++;
-			if(vars.currentSlide == vars.totalSlides) vars.currentSlide = 0;
+			if(vars.currentSlide == vars.totalSlides){ 
+				vars.currentSlide = 0;
+				//Trigger the slideshowEnd callback
+				settings.slideshowEnd.call(this);
+			}
 			if(vars.currentSlide < 0) vars.currentSlide = (vars.totalSlides - 1);
 			//Set vars.currentImage
 			if($(kids[vars.currentSlide]).is('img')){
@@ -382,10 +407,13 @@
 		directionNav:true,
 		directionNavHide:true,
 		controlNav:true,
+		keyboardNav:true,
 		pauseOnHover:true,
 		manualAdvance:false,
+		captionOpacity:0.8,
 		beforeChange: function(){},
-		afterChange: function(){}
+		afterChange: function(){},
+		slideshowEnd: function(){}
 	};
 	
 	$.fn.reverse = [].reverse;

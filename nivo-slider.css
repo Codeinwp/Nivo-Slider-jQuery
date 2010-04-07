@@ -1,5 +1,5 @@
 /*
- * jQuery Nivo Slider v1.7
+ * jQuery Nivo Slider v1.8
  * http://nivo.dev7studios.com
  *
  * Copyright 2010, Gilbert Pellegrom
@@ -9,6 +9,8 @@
  * March 2010
  */
  
+ 
+/* The Nivo Slider styles */
 .nivoSlider {
 	position:relative;
 }
@@ -17,6 +19,7 @@
 	top:0px;
 	left:0px;
 }
+/* If an image is wrapped in a link */
 .nivoSlider a.nivo-imageLink {
 	position:absolute;
 	top:0px;
@@ -29,21 +32,21 @@
 	z-index:60;
 	display:none;
 }
-
+/* The slices in the Slider */
 .nivo-slice {
 	display:block;
 	position:absolute;
 	z-index:50;
 	height:100%;
 }
-
+/* Caption styles */
 .nivo-caption {
 	position:absolute;
 	left:0px;
 	bottom:0px;
 	background:#000;
 	color:#fff;
-	opacity:0.8;
+	opacity:0.8; /* Overridden by captionOpacity setting */
 	width:100%;
 	z-index:89;
 }
@@ -51,7 +54,7 @@
 	padding:5px;
 	margin:0;
 }
-
+/* Direction nav styles (e.g. Next & Prev) */
 .nivo-directionNav a {
 	position:absolute;
 	top:45%;
@@ -64,7 +67,7 @@
 .nivo-nextNav {
 	right:0px;
 }
-
+/* Control nav styles (e.g. 1,2,3...) */
 .nivo-controlNav a {
 	position:relative;
 	z-index:99;
