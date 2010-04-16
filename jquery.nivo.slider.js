@@ -6,6 +6,10 @@
  * Free to use and abuse under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
  * 
+ * April 2010
+ * 
+ * controlNavThumbs option added by Jamie Thompson (http://jamiethompson.co.uk)
+ * 
  * March 2010
  *
  * manualAdvance option added by HelloPablo (http://hellopablo.co.uk)
@@ -144,7 +148,12 @@
 				var nivoControl = $('<div class="nivo-controlNav"></div>');
 				slider.append(nivoControl);
 				for(var i = 0; i < kids.length; i++){
-					nivoControl.append('<a class="nivo-control" rel="'+ i +'">'+ (i + 1) +'</a>');
+					if (settings.controlNavThumbs){
+						nivoControl.append('<a class="nivo-control" rel="'+ i +'"><img src="'+ kids.eq(i).attr('src').replace(settings.controlNavThumbsSearch, settings.controlNavThumbsReplace) +'"></a>');
+					} else {
+						nivoControl.append('<a class="nivo-control" rel="'+ i +'">'+i+'</a>');
+					}
+					
 				}
 				//Set initial active link
 				$('.nivo-controlNav a:eq('+ vars.currentSlide +')', slider).addClass('active');
@@ -407,6 +416,9 @@
 		directionNav:true,
 		directionNavHide:true,
 		controlNav:true,
+		controlNavThumbs:false,
+		controlNavThumbsSearch: '.jpg',
+		controlNavThumbsReplace: '_thumb.jpg',
 		keyboardNav:true,
 		pauseOnHover:true,
 		manualAdvance:false,
