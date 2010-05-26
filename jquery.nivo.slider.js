@@ -1,11 +1,14 @@
 /*
- * jQuery Nivo Slider v1.9
+ * jQuery Nivo Slider v2.0
  * http://nivo.dev7studios.com
  *
  * Copyright 2010, Gilbert Pellegrom
  * Free to use and abuse under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
  * 
+ * May 2010 - Pick random effect from specified set of effects by toronegro
+ * May 2010 - controlNavThumbsFromRel option added by nerd-sh
+ * May 2010 - Do not start nivoRun timer if there is only 1 slide by msielski
  * April 2010 - controlNavThumbs option added by Jamie Thompson (http://jamiethompson.co.uk)
  * March 2010 - manualAdvance option added by HelloPablo (http://hellopablo.co.uk)
  */
@@ -33,34 +36,37 @@
 			var slider = $(this);
 			slider.data('nivo:vars', vars);
 			slider.css('position','relative');
-			slider.width('1px');
-			slider.height('1px');
 			slider.addClass('nivoSlider');
 			
 			//Find our slider children
 			var kids = slider.children();
 			kids.each(function() {
 				var child = $(this);
+				var link = '';
 				if(!child.is('img')){
 					if(child.is('a')){
 						child.addClass('nivo-imageLink');
+						link = child;
 					}
 					child = child.find('img:first');
 				}
-				//Don't ask
-				var childWidth = child.width();
-				if(childWidth == 0) childWidth = child.attr('width');
-				var childHeight = child.height();
-				if(childHeight == 0) childHeight = child.attr('height');
-				//Resize the slider
-				if(childWidth > slider.width()){
-					slider.width(childWidth);
-				}
-				if(childHeight > slider.height()){
-					slider.height(childHeight);
-				}
-				child.css('display','none');
-				vars.totalSlides++;
+				//Get img width & height
+                var childWidth = child.width();
+                if(childWidth == 0) childWidth = child.attr('width');
+                var childHeight = child.height();
+                if(childHeight == 0) childHeight = child.attr('height');
+                //Resize the slider
+                if(childWidth > slider.width()){
+                    slider.width(childWidth);
+                }
+                if(childHeight > slider.height()){
+                    slider.height(childHeight);
+                }
+                if(link != ''){
+                    link.css('display','none');
+                }
+                child.css('display','none');
+                vars.totalSlides++;
 			});
 			
 			//Set startSlide
@@ -110,7 +116,7 @@
 			
 			//In the words of Super Mario "let's a go!"
 			var timer = 0;
-			if(!settings.manualAdvance){
+			if(!settings.manualAdvance && kids.length > 1){
 				timer = setInterval(function(){ nivoRun(slider, kids, settings, false); }, settings.pauseTime);
 			}
 
@@ -154,7 +160,11 @@
 						if(!child.is('img')){
 							child = child.find('img:first');
 						}
-						nivoControl.append('<a class="nivo-control" rel="'+ i +'"><img src="'+ child.attr('src').replace(settings.controlNavThumbsSearch, settings.controlNavThumbsReplace) +'"></a>');
+                        if (settings.controlNavThumbsFromRel) {
+                            nivoControl.append('<a class="nivo-control" rel="'+ i +'"><img src="'+ child.attr('rel') + '" alt="" /></a>');
+                        } else {
+                            nivoControl.append('<a class="nivo-control" rel="'+ i +'"><img src="'+ child.attr('src').replace(settings.controlNavThumbsSearch, settings.controlNavThumbsReplace) +'" alt="" /></a>');
+                        }
 					} else {
 						nivoControl.append('<a class="nivo-control" rel="'+ i +'">'+ i +'</a>');
 					}
@@ -300,6 +310,12 @@
 				vars.randAnim = anims[Math.floor(Math.random()*(anims.length + 1))];
 				if(vars.randAnim == undefined) vars.randAnim = 'fade';
 			}
+            
+            //Run random effect from specified set (eg: effect:'fold,fade')
+            if(settings.effect.indexOf(',') != -1){
+                var anims = settings.effect.split(',');
+                vars.randAnim = $.trim(anims[Math.floor(Math.random()*anims.length)]);
+            }
 		
 			//Run effects
 			vars.running = true;
@@ -423,8 +439,9 @@
 		directionNavHide:true,
 		controlNav:true,
 		controlNavThumbs:false,
-		controlNavThumbsSearch: '.jpg',
-		controlNavThumbsReplace: '_thumb.jpg',
+        controlNavThumbsFromRel:false,
+		controlNavThumbsSearch:'.jpg',
+		controlNavThumbsReplace:'_thumb.jpg',
 		keyboardNav:true,
 		pauseOnHover:true,
 		manualAdvance:false,
