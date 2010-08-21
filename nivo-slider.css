@@ -1,5 +1,5 @@
 /*
- * jQuery Nivo Slider v2.0
+ * jQuery Nivo Slider v2.1
  * http://nivo.dev7studios.com
  *
  * Copyright 2010, Gilbert Pellegrom
@@ -53,6 +53,12 @@
 .nivo-caption p {
 	padding:5px;
 	margin:0;
+}
+.nivo-caption a {
+	display:inline !important;
+}
+.nivo-html-caption {
+    display:none;
 }
 /* Direction nav styles (e.g. Next & Prev) */
 .nivo-directionNav a {

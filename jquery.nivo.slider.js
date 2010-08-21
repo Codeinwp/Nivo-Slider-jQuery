@@ -1,5 +1,5 @@
 /*
- * jQuery Nivo Slider v2.0
+ * jQuery Nivo Slider v2.1
  * http://nivo.dev7studios.com
  *
  * Copyright 2010, Gilbert Pellegrom
@@ -110,7 +110,9 @@
 			);			
 			//Process initial  caption
 			if(vars.currentImage.attr('title') != ''){
-				$('.nivo-caption p', slider).html(vars.currentImage.attr('title'));					
+                var title = vars.currentImage.attr('title');
+                if(title.substr(0,1) == '#') title = $(title).html();
+                $('.nivo-caption p', slider).html(title);					
 				$('.nivo-caption', slider).fadeIn(settings.animSpeed);
 			}
 			
@@ -166,7 +168,7 @@
                             nivoControl.append('<a class="nivo-control" rel="'+ i +'"><img src="'+ child.attr('src').replace(settings.controlNavThumbsSearch, settings.controlNavThumbsReplace) +'" alt="" /></a>');
                         }
 					} else {
-						nivoControl.append('<a class="nivo-control" rel="'+ i +'">'+ i +'</a>');
+						nivoControl.append('<a class="nivo-control" rel="'+ i +'">'+ (i + 1) +'</a>');
 					}
 					
 				}
@@ -283,13 +285,16 @@
 			
 			//Process caption
 			if(vars.currentImage.attr('title') != ''){
+                var title = vars.currentImage.attr('title');
+                if(title.substr(0,1) == '#') title = $(title).html();	
+                    
 				if($('.nivo-caption', slider).css('display') == 'block'){
 					$('.nivo-caption p', slider).fadeOut(settings.animSpeed, function(){
-						$(this).html(vars.currentImage.attr('title'));
+						$(this).html(title);
 						$(this).fadeIn(settings.animSpeed);
 					});
 				} else {
-					$('.nivo-caption p', slider).html(vars.currentImage.attr('title'));
+					$('.nivo-caption p', slider).html(title);
 				}					
 				$('.nivo-caption', slider).fadeIn(settings.animSpeed);
 			} else {
@@ -324,7 +329,7 @@
 				var timeBuff = 0;
 				var i = 0;
 				var slices = $('.nivo-slice', slider);
-				if(settings.effect == 'sliceDownLeft' || vars.randAnim == 'sliceDownLeft') slices = $('.nivo-slice', slider).reverse();
+				if(settings.effect == 'sliceDownLeft' || vars.randAnim == 'sliceDownLeft') slices = $('.nivo-slice', slider)._reverse();
 				slices.each(function(){
 					var slice = $(this);
 					slice.css('top','0px');
@@ -346,7 +351,7 @@
 				var timeBuff = 0;
 				var i = 0;
 				var slices = $('.nivo-slice', slider);
-				if(settings.effect == 'sliceUpLeft' || vars.randAnim == 'sliceUpLeft') slices = $('.nivo-slice', slider).reverse();
+				if(settings.effect == 'sliceUpLeft' || vars.randAnim == 'sliceUpLeft') slices = $('.nivo-slice', slider)._reverse();
 				slices.each(function(){
 					var slice = $(this);
 					slice.css('bottom','0px');
@@ -369,7 +374,7 @@
 				var i = 0;
 				var v = 0;
 				var slices = $('.nivo-slice', slider);
-				if(settings.effect == 'sliceUpDownLeft' || vars.randAnim == 'sliceUpDownLeft') slices = $('.nivo-slice', slider).reverse();
+				if(settings.effect == 'sliceUpDownLeft' || vars.randAnim == 'sliceUpDownLeft') slices = $('.nivo-slice', slider)._reverse();
 				slices.each(function(){
 					var slice = $(this);
 					if(i == 0){
@@ -451,6 +456,6 @@
 		slideshowEnd: function(){}
 	};
 	
-	$.fn.reverse = [].reverse;
+	$.fn._reverse = [].reverse;
 	
 })(jQuery);
