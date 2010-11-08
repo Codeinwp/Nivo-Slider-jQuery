@@ -242,6 +242,9 @@
 				//Trigger the afterChange callback
 				settings.afterChange.call(this);
 			});
+			
+			//Trigger the afterLoad callback
+			settings.afterLoad.call(this);
 		});
 		
 		function nivoRun(slider, kids, settings, nudge){
@@ -451,6 +454,7 @@
 		pauseOnHover:true,
 		manualAdvance:false,
 		captionOpacity:0.8,
+		afterLoad: function(){},
 		beforeChange: function(){},
 		afterChange: function(){},
 		slideshowEnd: function(){}
