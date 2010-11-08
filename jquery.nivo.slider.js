@@ -240,7 +240,7 @@
             //Trigger the afterChange callback
             settings.afterChange.call(this);
         });
-		
+
         // Private run method
 		var nivoRun = function(slider, kids, settings, nudge){
 			//Get our vars
@@ -458,6 +458,8 @@
             }
         }
         
+        //Trigger the afterLoad callback
+        settings.afterLoad.call(this);
     };
         
     $.fn.nivoSlider = function(options) {
@@ -495,7 +497,8 @@
 		beforeChange: function(){},
 		afterChange: function(){},
 		slideshowEnd: function(){},
-        lastSlide: function(){}
+        lastSlide: function(){},
+        afterLoad: function(){}
 	};
 	
 	$.fn._reverse = [].reverse;
