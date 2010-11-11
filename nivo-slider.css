@@ -74,11 +74,12 @@
 	right:0px;
 }
 /* Control nav styles (e.g. 1,2,3...) */
-.nivo-controlNav a {
+.nivo-controlNav a.nivo-control, .nivo-controlNav .nivo-control-wrapper {
 	position:relative;
 	z-index:99;
 	cursor:pointer;
+	float:left;
 }
-.nivo-controlNav a.active {
+.nivo-controlNav .active { /* Could be .nivo-control.active, .nivo-control-wrapper.active but that messes up IE */
 	font-weight:bold;
 }

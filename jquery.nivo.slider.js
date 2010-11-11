@@ -6,6 +6,7 @@
  * Free to use and abuse under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
  * 
+ * Nov 2011 - controlNavChild option added by Peter Bex of Solide ICT (http://www.solide-ict.nl)
  * May 2010 - Pick random effect from specified set of effects by toronegro
  * May 2010 - controlNavThumbsFromRel option added by nerd-sh
  * May 2010 - Do not start nivoRun timer if there is only 1 slide by msielski
@@ -165,15 +166,18 @@
                     } else {
                         nivoControl.append('<a class="nivo-control" rel="'+ i +'"><img src="'+ child.attr('src').replace(settings.controlNavThumbsSearch, settings.controlNavThumbsReplace) +'" alt="" /></a>');
                     }
+                } else if (settings.controlNavChild) {
+                    var node = kids.eq(i).find(settings.controlNavChildSelector).eq(0);
+                    nivoControl.append(node.wrap('<div class="nivo-control-wrapper" rel="'+ i +'">').parent());
                 } else {
                     nivoControl.append('<a class="nivo-control" rel="'+ i +'">'+ (i + 1) +'</a>');
                 }
                 
             }
             //Set initial active link
-            $('.nivo-controlNav a:eq('+ vars.currentSlide +')', slider).addClass('active');
+            $('.nivo-controlNav a.nivo-control, .nivo-controlNav .nivo-control-wrapper', slider).eq(vars.currentSlide).addClass('active');
             
-            $('.nivo-controlNav a', slider).live('click', function(){
+            $('.nivo-controlNav a.nivo-control, .nivo-controlNav .nivo-control-wrapper', slider).live('click', function(){
                 if(vars.running) return false;
                 if($(this).hasClass('active')) return false;
                 clearInterval(timer);
@@ -282,10 +286,10 @@
 				vars.currentImage = $(kids[vars.currentSlide]).find('img:first');
 			}
 			
-			//Set acitve links
+			//Set active links
 			if(settings.controlNav){
-				$('.nivo-controlNav a', slider).removeClass('active');
-				$('.nivo-controlNav a:eq('+ vars.currentSlide +')', slider).addClass('active');
+				$('.nivo-controlNav a.nivo-control, .nivo-controlNav .nivo-control-wrapper', slider).removeClass('active');
+				$('.nivo-controlNav a.nivo-control, .nivo-controlNav .nivo-control-wrapper', slider).eq(vars.currentSlide).addClass('active');
 			}
 			
 			//Process caption
@@ -486,6 +490,8 @@
 		directionNav:true,
 		directionNavHide:true,
 		controlNav:true,
+		controlNavChild:false,
+		controlNavChildSelector:false,
 		controlNavThumbs:false,
         controlNavThumbsFromRel:false,
 		controlNavThumbsSearch:'.jpg',
