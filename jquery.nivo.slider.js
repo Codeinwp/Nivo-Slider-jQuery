@@ -247,7 +247,7 @@
 			var vars = slider.data('nivo:vars');
             
             //Trigger the lastSlide callback
-            if(vars.currentSlide == vars.totalSlides - 1){ 
+            if(vars && (vars.currentSlide == vars.totalSlides - 1)){ 
 				settings.lastSlide.call(this);
 			}
             
