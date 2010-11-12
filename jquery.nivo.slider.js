@@ -1,11 +1,12 @@
 /*
- * jQuery Nivo Slider v2.3
+ * jQuery Nivo Slider v2.4
  * http://nivo.dev7studios.com
  *
  * Copyright 2010, Gilbert Pellegrom
  * Free to use and abuse under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
  * 
+ * November 2010 - Added callback parameters by Ernie (http://der-design.com)
  * May 2010 - Pick random effect from specified set of effects by toronegro
  * May 2010 - controlNavThumbsFromRel option added by nerd-sh
  * May 2010 - Do not start nivoRun timer if there is only 1 slide by msielski
@@ -238,7 +239,7 @@
                 timer = setInterval(function(){ nivoRun(slider, kids, settings, false); }, settings.pauseTime);
             }
             //Trigger the afterChange callback
-            settings.afterChange.call(this);
+            settings.afterChange.call(this, vars.currentSlide, vars, options);
         });
 
         // Private run method
@@ -247,32 +248,23 @@
 			var vars = slider.data('nivo:vars');
             
             //Trigger the lastSlide callback
-            if(vars && (vars.currentSlide == vars.totalSlides - 1)){ 
-				settings.lastSlide.call(this);
+            if(vars && (vars.currentSlide == vars.totalSlides - 1 && !vars.stop)){ 
+				settings.lastSlide.call(this, vars.currentSlide, vars, options);
 			}
             
             // Stop
 			if((!vars || vars.stop) && !nudge) return false;
-			
+            
 			//Trigger the beforeChange callback
-			settings.beforeChange.call(this);
+			settings.beforeChange.call(this, vars.currentSlide, vars, options);
 					
 			//Set current background before change
-			if(!nudge){
-				slider.css('background','url('+ vars.currentImage.attr('src') +') no-repeat');
-			} else {
-				if(nudge == 'prev'){
-					slider.css('background','url('+ vars.currentImage.attr('src') +') no-repeat');
-				}
-				if(nudge == 'next'){
-					slider.css('background','url('+ vars.currentImage.attr('src') +') no-repeat');
-				}
-			}
+            slider.css('background','url('+ vars.currentImage.attr('src') +') no-repeat');
 			vars.currentSlide++;
             //Trigger the slideshowEnd callback
 			if(vars.currentSlide == vars.totalSlides){ 
 				vars.currentSlide = 0;
-				settings.slideshowEnd.call(this);
+				settings.slideshowEnd.call(this, vars.currentSlide, vars, options);
 			}
 			if(vars.currentSlide < 0) vars.currentSlide = (vars.totalSlides - 1);
 			//Set vars.currentImage
@@ -459,7 +451,7 @@
         }
         
         //Trigger the afterLoad callback
-        settings.afterLoad.call(this);
+        settings.afterLoad.call(this, vars, options);
     };
         
     $.fn.nivoSlider = function(options) {
@@ -494,11 +486,11 @@
 		pauseOnHover:true,
 		manualAdvance:false,
 		captionOpacity:0.8,
-		beforeChange: function(){},
-		afterChange: function(){},
-		slideshowEnd: function(){},
-        lastSlide: function(){},
-        afterLoad: function(){}
+		beforeChange: function(){}, // function(slideIndex, runtimeVars, options)
+		afterChange: function(){},  // function(slideIndex, runtimeVars, options)
+		slideshowEnd: function(){}, // function(slideIndex, runtimeVars, options)
+        lastSlide: function(){},    // function(slideIndex, runtimeVars, options)
+        afterLoad: function(){}     // function(runtimeVars, options)
 	};
 	
 	$.fn._reverse = [].reverse;
