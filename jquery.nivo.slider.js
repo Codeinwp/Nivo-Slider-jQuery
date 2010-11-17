@@ -172,6 +172,10 @@
             }
             //Set initial active link
             $('.nivo-controlNav a:eq('+ vars.currentSlide +')', slider).addClass('active');
+            if(settings.controlNavThumbs && settings.controlNavThumbsActive) {
+                var oldThumbImage = $('.nivo-controlNav a.active img').attr("src");
+                $('.nivo-controlNav a.active img').attr("src", oldThumbImage.replace(settings.controlNavThumbsActiveSearch, settings.controlNavThumbsActiveReplace));
+            }
             
             $('.nivo-controlNav a', slider).live('click', function(){
                 if(vars.running) return false;
@@ -284,8 +288,16 @@
 			
 			//Set acitve links
 			if(settings.controlNav){
+			    if(settings.controlNavThumbs && settings.controlNavThumbsActive) {
+                    var oldThumbImage = $('.nivo-controlNav a.active img').attr("src");
+                    $('.nivo-controlNav a.active img').attr("src", oldThumbImage.replace(settings.controlNavThumbsActiveReplace, settings.controlNavThumbsActiveSearch));
+                }
 				$('.nivo-controlNav a', slider).removeClass('active');
 				$('.nivo-controlNav a:eq('+ vars.currentSlide +')', slider).addClass('active');
+				if(settings.controlNavThumbs && settings.controlNavThumbsActive) {
+                    var oldThumbImage = $('.nivo-controlNav a.active img').attr("src");
+                    $('.nivo-controlNav a.active img').attr("src", oldThumbImage.replace(settings.controlNavThumbsActiveSearch, settings.controlNavThumbsActiveReplace));
+                }
 			}
 			
 			//Process caption
@@ -490,6 +502,9 @@
         controlNavThumbsFromRel:false,
 		controlNavThumbsSearch:'.jpg',
 		controlNavThumbsReplace:'_thumb.jpg',
+		controlNavThumbsActive: false,
+        controlNavThumbsActiveSearch:'.jpg',
+        controlNavThumbsActiveReplace:'_active.jpg',
 		keyboardNav:true,
 		pauseOnHover:true,
 		manualAdvance:false,
