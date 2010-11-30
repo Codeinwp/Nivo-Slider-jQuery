@@ -1,11 +1,12 @@
 /*
- * jQuery Nivo Slider v2.3
+ * jQuery Nivo Slider v2.3.1
  * http://nivo.dev7studios.com
  *
  * Copyright 2010, Gilbert Pellegrom
  * Free to use and abuse under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
  * 
+ * Dec 2010 - Add support for images with spaces in their URLs
  * May 2010 - Pick random effect from specified set of effects by toronegro
  * May 2010 - controlNavThumbsFromRel option added by nerd-sh
  * May 2010 - Do not start nivoRun timer if there is only 1 slide by msielski
@@ -282,7 +283,7 @@
 				vars.currentImage = $(kids[vars.currentSlide]).find('img:first');
 			}
 			
-			//Set acitve links
+			//Set active links
 			if(settings.controlNav){
 				$('.nivo-controlNav a', slider).removeClass('active');
 				$('.nivo-controlNav a:eq('+ vars.currentSlide +')', slider).addClass('active');
