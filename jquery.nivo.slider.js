@@ -1,12 +1,11 @@
 /*
- * jQuery Nivo Slider v2.3.1
+ * jQuery Nivo Slider v2.3
  * http://nivo.dev7studios.com
  *
  * Copyright 2010, Gilbert Pellegrom
  * Free to use and abuse under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
  * 
- * Dec 2010 - Add support for images with spaces in their URLs
  * May 2010 - Pick random effect from specified set of effects by toronegro
  * May 2010 - controlNavThumbsFromRel option added by nerd-sh
  * May 2010 - Do not start nivoRun timer if there is only 1 slide by msielski
@@ -87,8 +86,8 @@
         }
         
         //Set first background
-        slider.css('background','url('+ vars.currentImage.attr('src') +') no-repeat');
-        
+        console.log(encodeURI(vars.currentImage.attr('src')))
+        slider.css('background','url('+ encodeURI(vars.currentImage.attr('src')) +') no-repeat');
         //Add initial slices
         for(var i = 0; i < settings.slices; i++){
             var sliceWidth = Math.round(slider.width()/settings.slices);
@@ -179,7 +178,7 @@
                 if($(this).hasClass('active')) return false;
                 clearInterval(timer);
                 timer = '';
-                slider.css('background','url('+ vars.currentImage.attr('src') +') no-repeat');
+                slider.css('background','url('+ encodeURI(vars.currentImage.attr('src')) +') no-repeat');
                 vars.currentSlide = $(this).attr('rel') - 1;
                 nivoRun(slider, kids, settings, 'control');
             });
@@ -260,13 +259,13 @@
 					
 			//Set current background before change
 			if(!nudge){
-				slider.css('background','url('+ vars.currentImage.attr('src') +') no-repeat');
+				slider.css('background','url('+ encodeURI(vars.currentImage.attr('src')) +') no-repeat');
 			} else {
 				if(nudge == 'prev'){
-					slider.css('background','url('+ vars.currentImage.attr('src') +') no-repeat');
+					slider.css('background','url('+ encodeURI(vars.currentImage.attr('src')) +') no-repeat');
 				}
 				if(nudge == 'next'){
-					slider.css('background','url('+ vars.currentImage.attr('src') +') no-repeat');
+					slider.css('background','url('+ encodeURI(vars.currentImage.attr('src')) +') no-repeat');
 				}
 			}
 			vars.currentSlide++;
@@ -312,7 +311,7 @@
 			$('.nivo-slice', slider).each(function(){
 				var sliceWidth = Math.round(slider.width()/settings.slices);
 				$(this).css({ height:'0px', opacity:'0', 
-					background: 'url('+ vars.currentImage.attr('src') +') no-repeat -'+ ((sliceWidth + (i * sliceWidth)) - sliceWidth) +'px 0%' });
+					background: 'url('+ encodeURI(vars.currentImage.attr('src')) +') no-repeat -'+ ((sliceWidth + (i * sliceWidth)) - sliceWidth) +'px 0%' });
 				i++;
 			});
 			
