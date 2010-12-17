@@ -105,14 +105,32 @@
         //Create caption
         slider.append(
             $('<div class="nivo-caption"><p></p></div>').css({ display:'none', opacity:settings.captionOpacity })
-        );			
+        );
+				
+		//Private ProcessCaption method
+		var nivoProcessCaption = function(){
+			if(vars.currentImage.attr('title') != ''){
+				var title = vars.currentImage.attr('title');
+				if(title.substr(0,1) == '#') title = $(title).html();	
+				
+				var $nivoCaption = $('.nivo-caption', slider);
+				
+				if($nivoCaption.css('display') == 'block'){
+					$nivoCaption.find('p').fadeOut(settings.animSpeed, function(){
+						$(this).html(title);
+						$(this).fadeIn(settings.animSpeed);
+					});
+				} else {
+					$nivoCaption.find('p').html(title);
+				}					
+				$nivoCaption.fadeIn(settings.animSpeed);
+			} else {
+				$nivoCaption.fadeOut(settings.animSpeed);
+			}
+		}
+		
         //Process initial  caption
-        if(vars.currentImage.attr('title') != ''){
-            var title = vars.currentImage.attr('title');
-            if(title.substr(0,1) == '#') title = $(title).html();
-            $('.nivo-caption p', slider).html(title);					
-            $('.nivo-caption', slider).fadeIn(settings.animSpeed);
-        }
+        nivoProcessCaption();
         
         //In the words of Super Mario "let's a go!"
         var timer = 0;
@@ -138,7 +156,7 @@
                 if(vars.running) return false;
                 clearInterval(timer);
                 timer = '';
-                vars.currentSlide-=2;
+                vars.currentSlide -= 2;
                 nivoRun(slider, kids, settings, 'prev');
             });
             
@@ -268,13 +286,17 @@
 					slider.css('background','url('+ vars.currentImage.attr('src') +') no-repeat');
 				}
 			}
+			
 			vars.currentSlide++;
+			
             //Trigger the slideshowEnd callback
 			if(vars.currentSlide == vars.totalSlides){ 
 				vars.currentSlide = 0;
 				settings.slideshowEnd.call(this);
 			}
+			
 			if(vars.currentSlide < 0) vars.currentSlide = (vars.totalSlides - 1);
+			
 			//Set vars.currentImage
 			if($(kids[vars.currentSlide]).is('img')){
 				vars.currentImage = $(kids[vars.currentSlide]);
@@ -282,29 +304,14 @@
 				vars.currentImage = $(kids[vars.currentSlide]).find('img:first');
 			}
 			
-			//Set acitve links
+			//Set active links
 			if(settings.controlNav){
 				$('.nivo-controlNav a', slider).removeClass('active');
 				$('.nivo-controlNav a:eq('+ vars.currentSlide +')', slider).addClass('active');
 			}
-			
+
 			//Process caption
-			if(vars.currentImage.attr('title') != ''){
-                var title = vars.currentImage.attr('title');
-                if(title.substr(0,1) == '#') title = $(title).html();	
-                    
-				if($('.nivo-caption', slider).css('display') == 'block'){
-					$('.nivo-caption p', slider).fadeOut(settings.animSpeed, function(){
-						$(this).html(title);
-						$(this).fadeIn(settings.animSpeed);
-					});
-				} else {
-					$('.nivo-caption p', slider).html(title);
-				}					
-				$('.nivo-caption', slider).fadeIn(settings.animSpeed);
-			} else {
-				$('.nivo-caption', slider).fadeOut(settings.animSpeed);
-			}
+			nivoProcessCaption();
 			
 			//Set new slice backgrounds
 			var  i = 0;
