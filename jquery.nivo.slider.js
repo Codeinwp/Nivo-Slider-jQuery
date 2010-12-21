@@ -86,7 +86,7 @@
         }
         
         //Set first background
-        slider.css('background','url('+ vars.currentImage.attr('src') +') no-repeat');
+        slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');
         
         //Add initial slices
         for(var i = 0; i < settings.slices; i++){
@@ -178,7 +178,7 @@
                 if($(this).hasClass('active')) return false;
                 clearInterval(timer);
                 timer = '';
-                slider.css('background','url('+ vars.currentImage.attr('src') +') no-repeat');
+                slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');
                 vars.currentSlide = $(this).attr('rel') - 1;
                 nivoRun(slider, kids, settings, 'control');
             });
@@ -259,13 +259,13 @@
 					
 			//Set current background before change
 			if(!nudge){
-				slider.css('background','url('+ vars.currentImage.attr('src') +') no-repeat');
+				slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');
 			} else {
 				if(nudge == 'prev'){
-					slider.css('background','url('+ vars.currentImage.attr('src') +') no-repeat');
+					slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');
 				}
 				if(nudge == 'next'){
-					slider.css('background','url('+ vars.currentImage.attr('src') +') no-repeat');
+					slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');
 				}
 			}
 			vars.currentSlide++;
@@ -311,7 +311,7 @@
 			$('.nivo-slice', slider).each(function(){
 				var sliceWidth = Math.round(slider.width()/settings.slices);
 				$(this).css({ height:'0px', opacity:'0', 
-					background: 'url('+ vars.currentImage.attr('src') +') no-repeat -'+ ((sliceWidth + (i * sliceWidth)) - sliceWidth) +'px 0%' });
+					background: 'url("'+ vars.currentImage.attr('src') +'") no-repeat -'+ ((sliceWidth + (i * sliceWidth)) - sliceWidth) +'px 0%' });
 				i++;
 			});
 			
