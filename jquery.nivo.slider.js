@@ -238,7 +238,7 @@
                 timer = setInterval(function(){ nivoRun(slider, kids, settings, false); }, settings.pauseTime);
             }
             //Trigger the afterChange callback
-            settings.afterChange.call(vars.currentSlide);
+            settings.afterChange.call(vars.currentImage,vars.currentSlide);
         });
 
         // Private run method
@@ -248,14 +248,14 @@
 
             //Trigger the lastSlide callback
             if(vars && (vars.currentSlide == vars.totalSlides - 1)){
-        settings.lastSlide.call(vars.currentSlide);
+        settings.lastSlide.call(vars.currentImage,vars.currentSlide);
       }
 
             // Stop
       if((!vars || vars.stop) && !nudge) return false;
 
       //Trigger the beforeChange callback
-      settings.beforeChange.call(vars.currentSlide);
+      settings.beforeChange.call(vars.currentImage,vars.currentSlide);
 
       //Set current background before change
       if(!nudge){
