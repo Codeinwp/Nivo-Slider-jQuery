@@ -27,7 +27,8 @@
             randAnim: '',
             running: false,
             paused: false,
-            stop: false
+            stop: false,
+            controlArea: ''
         };
     
         //Get this slider
@@ -152,8 +153,16 @@
         
         //Add Control nav
         if(settings.controlNav){
-            var nivoControl = $('<div class="nivo-controlNav"></div>');
-            slider.append(nivoControl);
+            var nivoControl = $('<div class="nivo-controlNav"></div>'),
+				        domControlArea = $('#' + settings.controlPlaceAreaID);
+
+            // Enable custom placement of control nav (especially cool for tumbs)
+            // Try and find a element with id: "nivo-ControlNav-area" (default)
+            // - assign that elem to 'vars.controlArea' if found - else to def: "slider"				    
+
+				    vars.controlArea = domControlArea || slider;
+				    vars.controlArea.append(nivoControl);
+			
             for(var i = 0; i < kids.length; i++){
                 if(settings.controlNavThumbs){
                     var child = kids.eq(i);
@@ -171,9 +180,10 @@
                 
             }
             //Set initial active link
-            $('.nivo-controlNav a:eq('+ vars.currentSlide +')', slider).addClass('active');
+            //Using "vars.controlArea" instead of "slider"
+            $('.nivo-controlNav a:eq('+ vars.currentSlide +')', vars.controlArea).addClass('active');
             
-            $('.nivo-controlNav a', slider).live('click', function(){
+            $('.nivo-controlNav a', vars.controlArea).live('click', function(){
                 if(vars.running) return false;
                 if($(this).hasClass('active')) return false;
                 clearInterval(timer);
@@ -299,9 +309,10 @@
 			}
 			
 			//Set acitve links
+			//Using "vars.controlArea" instead of "slider"
 			if(settings.controlNav){
-				$('.nivo-controlNav a', slider).removeClass('active');
-				$('.nivo-controlNav a:eq('+ vars.currentSlide +')', slider).addClass('active');
+				$('.nivo-controlNav a', vars.controlArea).removeClass('active');
+				$('.nivo-controlNav a:eq('+ vars.currentSlide +')', vars.controlArea).addClass('active');
 			}
 			
 			//Process caption
@@ -537,6 +548,7 @@
         controlNavThumbsFromRel: false,
 		controlNavThumbsSearch: '.jpg',
 		controlNavThumbsReplace: '_thumb.jpg',
+		controlPlaceAreaID: "nivo-controlNav-area",
 		keyboardNav: true,
 		pauseOnHover: true,
 		manualAdvance: false,
