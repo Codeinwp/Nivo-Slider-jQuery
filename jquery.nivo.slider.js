@@ -111,7 +111,7 @@
             var title = vars.currentImage.attr('title');
             if(title.substr(0,1) == '#') title = $(title).html();
             $('.nivo-caption p', slider).html(title);					
-            $('.nivo-caption', slider).fadeIn(settings.animSpeed);
+            $('.nivo-caption', slider).fadeOut(0).delay(settings.captionDelay).fadeIn(settings.animSpeed);
         }
         
         //In the words of Super Mario "let's a go!"
@@ -312,12 +312,12 @@
 				if($('.nivo-caption', slider).css('display') == 'block'){
 					$('.nivo-caption p', slider).fadeOut(settings.animSpeed, function(){
 						$(this).html(title);
-						$(this).fadeIn(settings.animSpeed);
+						$(this).fadeOut(0).delay(settings.captionDelay).fadeIn(settings.animSpeed);
 					});
 				} else {
 					$('.nivo-caption p', slider).html(title);
 				}					
-				$('.nivo-caption', slider).fadeIn(settings.animSpeed);
+				$('.nivo-caption', slider).fadeOut(0).delay(settings.captionDelay).fadeIn(settings.animSpeed);
 			} else {
 				$('.nivo-caption', slider).fadeOut(settings.animSpeed);
 			}
@@ -541,6 +541,7 @@
 		pauseOnHover: true,
 		manualAdvance: false,
 		captionOpacity: 0.8,
+		captionDelay: 0,
 		beforeChange: function(){},
 		afterChange: function(){},
 		slideshowEnd: function(){},
