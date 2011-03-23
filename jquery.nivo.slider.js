@@ -1,5 +1,5 @@
 /*
- * jQuery Nivo Slider v2.5
+ * jQuery Nivo Slider v2.5.1
  * http://nivo.dev7studios.com
  *
  * Copyright 2011, Gilbert Pellegrom
@@ -357,7 +357,8 @@
 			$('.nivo-box', slider).remove();
 			
 			if(settings.effect == 'random'){
-				var anims = new Array('sliceDownRight','sliceDownLeft','sliceUpRight','sliceUpLeft','sliceUpDown','sliceUpDownLeft','fold','fade','boxRandom','boxRain','boxRainReverse');
+				var anims = new Array('sliceDownRight','sliceDownLeft','sliceUpRight','sliceUpLeft','sliceUpDown','sliceUpDownLeft','fold','fade',
+                'boxRandom','boxRain','boxRainReverse','boxRainGrow','boxRainGrowReverse');
 				vars.randAnim = anims[Math.floor(Math.random()*(anims.length + 1))];
 				if(vars.randAnim == undefined) vars.randAnim = 'fade';
 			}
@@ -483,7 +484,7 @@
                 });
     
 				firstSlice.animate({ opacity:'1.0' }, (settings.animSpeed*2), '', function(){ slider.trigger('nivo:animFinished'); });
-			}    
+			}          
             else if(settings.effect == 'slideInRight' || vars.randAnim == 'slideInRight'){
 				createSlices(slider, settings, vars);
 				
@@ -540,7 +541,8 @@
 					i++;
 				});
 			}
-			else if(settings.effect == 'boxRain' || vars.randAnim == 'boxRain' || settings.effect == 'boxRainReverse' || vars.randAnim == 'boxRainReverse'){
+			else if(settings.effect == 'boxRain' || vars.randAnim == 'boxRain' || settings.effect == 'boxRainReverse' || vars.randAnim == 'boxRainReverse' || 
+                    settings.effect == 'boxRainGrow' || vars.randAnim == 'boxRainGrow' || settings.effect == 'boxRainGrowReverse' || vars.randAnim == 'boxRainGrowReverse'){
 				createBoxes(slider, settings, vars);
 				
 				var totalBoxes = settings.boxCols * settings.boxRows;
@@ -553,7 +555,8 @@
 				var box2Darr = new Array();
 				box2Darr[rowIndex] = new Array();
 				var boxes = $('.nivo-box', slider);
-				if(settings.effect == 'boxRainReverse' || vars.randAnim == 'boxRainReverse'){
+				if(settings.effect == 'boxRainReverse' || vars.randAnim == 'boxRainReverse' ||
+                   settings.effect == 'boxRainGrowReverse' || vars.randAnim == 'boxRainGrowReverse'){
 					boxes = $('.nivo-box', slider)._reverse();
 				}
 				boxes.each(function(){
@@ -576,13 +579,19 @@
 							with an anonymous function call */
 							(function(row, col, time, i, totalBoxes) {
 								var box = $(box2Darr[row][col]);
+                                var w = box.width();
+                                var h = box.height();
+                                if(settings.effect == 'boxRainGrow' || vars.randAnim == 'boxRainGrow' ||
+                                   settings.effect == 'boxRainGrowReverse' || vars.randAnim == 'boxRainGrowReverse'){
+                                    box.width(0).height(0);
+                                }
 								if(i == totalBoxes-1){
 									setTimeout(function(){
-										box.animate({ opacity:'1' }, settings.animSpeed/1.3, '', function(){ slider.trigger('nivo:animFinished'); });
+										box.animate({ opacity:'1', width:w, height:h }, settings.animSpeed/1.3, '', function(){ slider.trigger('nivo:animFinished'); });
 									}, (100 + time));
 								} else {
 									setTimeout(function(){
-										box.animate({ opacity:'1' }, settings.animSpeed/1.3);
+										box.animate({ opacity:'1', width:w, height:h }, settings.animSpeed/1.3);
 									}, (100 + time));
 								}
 							})(rows, prevCol, timeBuff, i, totalBoxes);
