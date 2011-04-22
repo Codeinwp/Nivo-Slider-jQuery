@@ -86,7 +86,7 @@
 
         //Create caption
         slider.append(
-            $('<div class="nivo-caption"><p></p></div>').css({ display:'none', opacity:settings.captionOpacity })
+            $('<div class="nivo-caption"><p></p></div>').css({ display:'none' })
         );			
 		
 		// Process caption function
@@ -103,8 +103,8 @@
 					});
 				} else {
 					nivoCaption.find('p').html(title);
+                    nivoCaption.css("display", "block").animate({opacity: .8}, settings.animSpeed);
 				}					
-				nivoCaption.fadeIn(settings.animSpeed);
 			} else {
 				nivoCaption.fadeOut(settings.animSpeed);
 			}
