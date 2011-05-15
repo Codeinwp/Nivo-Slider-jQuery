@@ -237,7 +237,7 @@
                 timer = setInterval(function(){ nivoRun(slider, kids, settings, false); }, settings.pauseTime);
             }
             //Trigger the afterChange callback
-            settings.afterChange.call(this);
+            settings.afterChange.call(this,vars);
         });
         
         // Add slices for slice animations
@@ -307,14 +307,14 @@
             
             //Trigger the lastSlide callback
             if(vars && (vars.currentSlide == vars.totalSlides - 1)){ 
-				settings.lastSlide.call(this);
+				settings.lastSlide.call(this,vars);
 			}
             
             // Stop
 			if((!vars || vars.stop) && !nudge) return false;
 			
 			//Trigger the beforeChange callback
-			settings.beforeChange.call(this);
+			settings.beforeChange.call(this,vars);
 					
 			//Set current background before change
 			if(!nudge){
@@ -331,7 +331,7 @@
             //Trigger the slideshowEnd callback
 			if(vars.currentSlide == vars.totalSlides){ 
 				vars.currentSlide = 0;
-				settings.slideshowEnd.call(this);
+				settings.slideshowEnd.call(this,vars);
 			}
 			if(vars.currentSlide < 0) vars.currentSlide = (vars.totalSlides - 1);
 			//Set vars.currentImage
@@ -632,7 +632,7 @@
         }
         
         //Trigger the afterLoad callback
-        settings.afterLoad.call(this);
+        settings.afterLoad.call(this,vars);
 		
 		return this;
     };
