@@ -1,5 +1,5 @@
 /*
- * jQuery Nivo Slider v2.5.1
+ * jQuery Nivo Slider v2.5.2
  * http://nivo.dev7studios.com
  *
  * Copyright 2011, Gilbert Pellegrom
@@ -92,7 +92,7 @@
 		// Process caption function
 		var processCaption = function(settings){
 			var nivoCaption = $('.nivo-caption', slider);
-			if(vars.currentImage.attr('title') != ''){
+			if(vars.currentImage.attr('title') != '' && vars.currentImage.attr('title') != undefined){
 				var title = vars.currentImage.attr('title');
 				if(title.substr(0,1) == '#') title = $(title).html();	
 
