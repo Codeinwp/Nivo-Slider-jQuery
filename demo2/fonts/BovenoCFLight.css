@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'BonvenoCFLight';
+    src: url('BonvenoCF-Light-webfont.eot');
+    src: url('BonvenoCF-Light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('BonvenoCF-Light-webfont.woff') format('woff'),
+         url('BonvenoCF-Light-webfont.ttf') format('truetype'),
+         url('BonvenoCF-Light-webfont.svg#BonvenoCFLight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}

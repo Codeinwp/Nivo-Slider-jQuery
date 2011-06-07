@@ -154,25 +154,40 @@
             var nivoControl = $('<div class="nivo-controlNav"></div>');
             slider.append(nivoControl);
             for(var i = 0; i < kids.length; i++){
-                if(settings.controlNavThumbs){
-                    var child = kids.eq(i);
-                    if(!child.is('img')){
-                        child = child.find('img:first');
-                    }
-                    if (settings.controlNavThumbsFromRel) {
-                        nivoControl.append('<a class="nivo-control" rel="'+ i +'"><img src="'+ child.attr('rel') + '" alt="" /></a>');
-                    } else {
-                        nivoControl.append('<a class="nivo-control" rel="'+ i +'"><img src="'+ child.attr('src').replace(settings.controlNavThumbsSearch, settings.controlNavThumbsReplace) +'" alt="" /></a>');
-                    }
-                } else {
-                    nivoControl.append('<a class="nivo-control" rel="'+ i +'">'+ (i + 1) +'</a>');
-                }
-                
+				nivoControl.append('<a class="nivo-control" rel="'+ i +'">'+ (i + 1) +'</a>');     
             }
             //Set initial active link
             $('.nivo-controlNav a:eq('+ vars.currentSlide +')', slider).addClass('active');
             
             $('.nivo-controlNav a', slider).live('click', function(){
+                if(vars.running) return false;
+                if($(this).hasClass('active')) return false;
+                clearInterval(timer);
+                timer = '';
+                slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');
+                vars.currentSlide = $(this).attr('rel') - 1;
+                nivoRun(slider, kids, settings, 'control');
+            });
+        }
+		//Add Control nav
+        if(settings.controlNavThumbs){
+            var nivoThumbs = $('<div class="nivo-thumbNav"></div>');
+            slider.append(nivoThumbs);
+            for(var i = 0; i < kids.length; i++){
+                    var child = kids.eq(i);
+                    if(!child.is('img')){
+                        child = child.find('img:first');
+                    }
+                    if (settings.controlNavThumbsFromRel) {
+                        nivoThumbs.append('<a class="nivo-control" rel="'+ i +'"><img src="'+ child.attr('rel') + '" alt="" /></a>');
+                    } else {
+                        nivoThumbs.append('<a class="nivo-control" rel="'+ i +'"><img src="'+ child.attr('src').replace(settings.controlNavThumbsSearch, settings.controlNavThumbsReplace) +'" alt="" /></a>');
+                    }
+            }
+            //Set initial active link
+            $('.nivo-thumbNav a:eq('+ vars.currentSlide +')', slider).addClass('active');
+            
+            $('.nivo-thumbNav a', slider).live('click', function(){
                 if(vars.running) return false;
                 if($(this).hasClass('active')) return false;
                 clearInterval(timer);
@@ -345,6 +360,10 @@
 			if(settings.controlNav){
 				$('.nivo-controlNav a', slider).removeClass('active');
 				$('.nivo-controlNav a:eq('+ vars.currentSlide +')', slider).addClass('active');
+			}
+			if(settings.controlNavThumbs){
+				$('.nivo-thumbNav a', slider).removeClass('active');
+				$('.nivo-thumbNav a:eq('+ vars.currentSlide +')', slider).addClass('active');
 			}
 			
 			//Process caption

@@ -1,0 +1,113 @@
+@import url("fonts/BovenoCFLight.css");
+
+body{margin:0;background-color:#BDDD3E;color:white;text-shadow:#444444 1px 1px 2px;font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;}
+.w960{width:960px;margin:auto;height:750px;position:relative;}
+
+/* --PORTFOLIO-- */
+#portfolio{width:100%;min-height:750px;float:left;position:relative;z-index:-1;background:url(images/bg_portfolio.png) left top repeat-x;}
+#bottomclouds{background:url(images/bg_clouds_bottom.png) center bottom repeat-x;}
+#portfolio .content{width:714px;min-height:319px;padding-bottom:4px;background:url(images/bg_frame_portfolio.png) left bottom no-repeat;position:absolute;left:20px;top:180px;}
+#portfolio .content h2{color:#336A91;margin:19px 0 5px 0;font:18px/18px 'BonvenoCFLight', sans-serif;text-transform:uppercase;}
+#portfolio ul{list-style:none;padding:0;margin:0;margin-left:10px;width:140px;}
+#portfolio ul li{width:60px;padding:0 3px 2px;float:left;}
+#portfolio #mainimage{float:left;margin-top:-210px;margin-left:10px;}
+#findus{width:162px;height:19px;padding:10px;padding-top:70px;background:url(images/bg_frame_findusat.png) right bottom no-repeat;position:absolute;right:20px;bottom:150px;}
+#findus h4{color:#336A91;font:14px/18px 'BonvenoCFLight', sans-serif;text-transform:uppercase;margin:0 0 7px 0;float:left;}
+#findus ul{list-style:none;margin:0;padding:0;width:auto;}
+#findus ul li{float:right;padding:0;width:auto;}
+#findus ul li a img{padding:0 4px;vertical-align:top;}
+
+
+/*============================*/
+/*=== Custom Slider Styles ===*/
+/*============================*/
+#slider {
+	position:relative;
+    width:550px !important;
+    height:272px;
+    margin-left:150px;
+	background:url(images/loading_blue.gif) no-repeat 50% 50%;
+}
+#slider img {
+	position:absolute;
+	top:0px;
+	left:0px;
+	display:none;
+}
+
+#slider a {
+	border:0;
+	display:block;
+}
+
+.nivo-controlNav {
+	position:absolute;
+	right:60px;
+	bottom:0px;
+}
+.nivo-controlNav a {
+	display:block;
+	width:22px;
+	height:22px;
+	background:url(images/squares.png) no-repeat;
+	text-indent:-9999px;
+	border:0;
+	margin-right:3px;
+	float:left;
+}
+.nivo-controlNav a.active {
+	background-position:0 -22px;
+}
+
+#slider .nivo-thumbNav{
+	position:absolute;
+	left:-137px;
+	top:0px;
+	width:137px;:
+}
+#slider .nivo-thumbNav a{
+	display:block;
+	float:left;
+	cursor:pointer;
+	width:60px;
+	height:60px;
+	padding:0 6px 10px 0;
+}
+#slider .nivo-thumbNav a img {
+	display:inline; /* Unhide the thumbnails */
+	position:relative;
+	float:left;
+	border:1px solid #FFFFFF;
+	opacity:0.6;
+}
+#slider .nivo-thumbNav a:hover img {
+	opacity:1;
+}
+#slider .nivo-thumbNav a.active img {
+	border:1px solid #FFCF00;
+	opacity:1;
+}
+.nivo-directionNav a {
+	display:block;
+	width:30px;
+	height:30px;
+	background:url(images/arrows.png) no-repeat;
+	text-indent:-9999px;
+	border:0;
+}
+a.nivo-nextNav {
+	background-position:-30px 0;
+	right:15px;
+}
+a.nivo-prevNav {
+	left:15px;
+}
+
+.nivo-caption {
+    text-shadow:none;
+    font-family: Helvetica, Arial, sans-serif;
+}
+.nivo-caption a { 
+    color:#efe9d1;
+    text-decoration:underline;
+}
