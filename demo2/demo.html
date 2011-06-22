@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<html>
+<head>
+    <title>Nivo Slider Demo</title>
+    <link rel="stylesheet" href="../nivo-slider.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+</head>
+<body>
+    <div id="wrapper">
+    
+        <div id="portfolio">
+        <div id="bottomclouds">
+            <div class="w960">
+            <div class="content">
+                    <h2>PORTFOLIO</h2>
+                    <div id="slider">
+                        <img src="images/nemo.jpg" alt="" />
+                        <img src="images/up.jpg" alt="" />
+                        <img src="images/walle.jpg" alt="" title="This is an example of a caption" />
+                        <img src="images/toystory.jpg" alt="" />
+                        <img src="images/nemo.jpg" alt="" />
+                        <img src="images/up.jpg" alt="" />
+                        <img src="images/walle.jpg" alt="" title="This is an example of a caption" />
+                        <img src="images/toystory.jpg" alt="" />
+                    </div><!-- /slider -->
+
+                </div><!-- /content -->
+                <div id="findus">
+                    <h4>FIND US AT</h4>
+                    <ul>
+                        <li><a href="http://www.linkedin.com/in/brechtmissotten"><img src="images/linkedin_16.png" alt="LinkedIn" width="16" height="16" /></a></li>
+                        <li><a href="http://www.flickr.com/photos/myriadmedia/"><img src="images/flickr_16.png" alt="Flickr" width="16" height="16" /></a></li>
+                    </ul>
+                </div><!-- /findus -->
+            </div><!-- /w960 -->
+        </div><!-- /bottomclouds -->
+    </div><!-- /portfolio -->
+
+    </div>
+    <script type="text/javascript" src="scripts/jquery-1.6.1.min.js"></script>
+    <script type="text/javascript" src="../jquery.nivo.slider.js"></script>
+    <script type="text/javascript">
+    $(window).load(function() {
+        $('#slider').nivoSlider({
+			effect:'random', // Specify sets like: 'fold,fade,sliceDown'
+			slices:15, // For slice animations
+			boxCols: 8, // For box animations
+			boxRows: 4, // For box animations
+			animSpeed:500, // Slide transition speed
+			pauseTime:3000, // How long each slide will show
+			startSlide:0, // Set starting Slide (0 index)
+			directionNav:true, // Next & Prev navigation
+			directionNavHide:true, // Only show on hover
+			controlNav:true, // 1,2,3... navigation
+			controlNavThumbs:true, // Use thumbnails for Control Nav
+			controlNavThumbsFromRel:false, // Use image rel for thumbs
+			controlNavThumbsSearch: '.jpg', // Replace this with...
+			controlNavThumbsReplace: '_thumb.jpg', // ...this in thumb Image src
+			keyboardNav:true, // Use left & right arrows
+			pauseOnHover:true, // Stop animation while hovering
+			manualAdvance:false, // Force manual transitions
+			captionOpacity:0.8, // Universal caption opacity
+			prevText: 'Prev', // Prev directionNav text
+			nextText: 'Next', // Next directionNav text
+			beforeChange: function(){}, // Triggers before a slide transition
+			afterChange: function(){}, // Triggers after a slide transition
+			slideshowEnd: function(){}, // Triggers after all slides have been shown
+			lastSlide: function(){}, // Triggers when last slide is shown
+			afterLoad: function(){} // Triggers when slider has loaded
+    	});
+    });
+    </script>
+</body>
+</html>
