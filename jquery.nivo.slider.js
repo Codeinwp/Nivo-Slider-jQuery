@@ -1,5 +1,5 @@
 /*
- * jQuery Nivo Slider v2.5.2
+ * jQuery Nivo Slider v2.6
  * http://nivo.dev7studios.com
  *
  * Copyright 2011, Gilbert Pellegrom
