@@ -92,8 +92,8 @@
 		// Process caption function
 		var processCaption = function(settings){
 			var nivoCaption = $('.nivo-caption', slider);
-			if(vars.currentImage.attr('title') != '' && vars.currentImage.attr('title') != undefined){
-				var title = vars.currentImage.attr('title');
+			if(vars.currentImage.attr(settings.captionAttribute) != '' && vars.currentImage.attr(settings.captionAttribute) != undefined){
+				var title = vars.currentImage.attr(settings.captionAttribute);
 				if(title.substr(0,1) == '#') title = $(title).html();	
 
 				if(nivoCaption.css('display') == 'block'){
@@ -673,6 +673,7 @@
 		captionOpacity: 0.8,
 		prevText: 'Prev',
 		nextText: 'Next',
+		captionAttribute : 'title',
 		beforeChange: function(){},
 		afterChange: function(){},
 		slideshowEnd: function(){},
