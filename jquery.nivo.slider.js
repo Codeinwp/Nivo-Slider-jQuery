@@ -32,8 +32,8 @@
         slider.css('position','relative');
         slider.addClass('nivoSlider');
         
-        //Find our slider children
-        var kids = slider.children();
+        //Find our slider children, ignore extraneous HTML elements
+        var kids = slider.children("img,a");
         kids.each(function() {
             var child = $(this);
             var link = '';
