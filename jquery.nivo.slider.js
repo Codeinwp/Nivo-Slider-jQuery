@@ -369,7 +369,8 @@
                 vars.randAnim = anims[Math.floor(Math.random()*(anims.length))];
 				if(vars.randAnim == undefined) vars.randAnim = 'fade';
             }
-		
+            		//effect 'slideInLeftRight'
+			if(settings.effect=="slideInLeftRight"){if(nudge=="next"){vars.randAnim="slideInLeft"}else{vars.randAnim="slideInRight"}};
 			//Run effects
 			vars.running = true;
 			if(settings.effect == 'sliceDown' || settings.effect == 'sliceDownRight' || vars.randAnim == 'sliceDownRight' ||
