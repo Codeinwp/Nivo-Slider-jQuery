@@ -17,3 +17,11 @@
     display: block;
     width: 100%;
 }
+
+.adaptingSlider .nivo-box img,
+.adaptingSlider .nivo-slice img {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
