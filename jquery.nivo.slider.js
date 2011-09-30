@@ -12,8 +12,8 @@
 (function($) {
 
     var NivoSlider = function(element, options){
-		//Defaults are below
-		var settings = $.extend({}, $.fn.nivoSlider.defaults, options);
+        //Defaults are below
+        var settings = $.extend({}, $.fn.nivoSlider.defaults, options);
 
         //Useful variables. Play carefully.
         var vars = {
@@ -25,7 +25,33 @@
             paused: false,
             stop: false
         };
-    
+
+        /** Additional stuff for adapt images **/
+        var functions = {
+            setSliderBackground: function(image) {
+                slider.css('background','url("'+ image.attr('src') +'") no-repeat');
+            }
+        };
+
+        var adaptImagesFunctions = {
+            setSliderBackground: function(image) {
+                var currentImage = slider.find('.currentImage');
+
+                if(!currentImage.length) {
+                    currentImage = $('<img src="" alt="currentImage" class="currentImage"/>');
+//                    slider.prepend($('<span class="clear"></span>'));
+                    slider.prepend(currentImage);
+                }
+
+                currentImage.attr('src', image.attr('src')).attr('alt', image.attr('alt'));
+            }
+        };
+
+        if(settings.adaptImages)
+            $.extend(functions, adaptImagesFunctions);
+
+        /** End adapt images **/
+
         //Get this slider
         var slider = $(element);
         slider.data('nivo:vars', vars);
@@ -82,7 +108,7 @@
         }
         
         //Set first background
-        slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');
+        functions.setSliderBackground(vars.currentImage);
 
         //Create caption
         slider.append(
@@ -177,7 +203,7 @@
                 if($(this).hasClass('active')) return false;
                 clearInterval(timer);
                 timer = '';
-                slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');
+                functions.setSliderBackground(vars.currentImage);
                 vars.currentSlide = $(this).attr('rel') - 1;
                 nivoRun(slider, kids, settings, 'control');
             });
@@ -246,12 +272,12 @@
 				var sliceWidth = Math.round(slider.width()/settings.slices);
 				if(i == settings.slices-1){
 					slider.append(
-						$('<div class="nivo-slice"></div>').css({ 
+						$('<div class="nivo-slice"></div>').css({
 							left:(sliceWidth*i)+'px', width:(slider.width()-(sliceWidth*i))+'px',
-							height:'0px', 
-							opacity:'0', 
+							height:'0px',
+							opacity:'0',
 							background: 'url("'+ vars.currentImage.attr('src') +'") no-repeat -'+ ((sliceWidth + (i * sliceWidth)) - sliceWidth) +'px 0%'
-						})
+						});
 					);
 				} else {
 					slider.append(
@@ -318,13 +344,13 @@
 					
 			//Set current background before change
 			if(!nudge){
-				slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');
+                functions.setSliderBackground(vars.currentImage);
 			} else {
 				if(nudge == 'prev'){
-					slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');
+                    functions.setSliderBackground(vars.currentImage);
 				}
 				if(nudge == 'next'){
-					slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');
+                    functions.setSliderBackground(vars.currentImage);
 				}
 			}
 			vars.currentSlide++;
@@ -667,6 +693,7 @@
         controlNavThumbsFromRel: false,
 		controlNavThumbsSearch: '.jpg',
 		controlNavThumbsReplace: '_thumb.jpg',
+        adaptImages: false,
 		keyboardNav: true,
 		pauseOnHover: true,
 		manualAdvance: false,

@@ -1,0 +1,19 @@
+/*
+ * jQuery Nivo Slider - Adapting images
+ * http://ramblinglabs.com
+ *
+ * Copyright 2011, Rambling Labs
+ * Free to use and abuse under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ * September 2011
+ */
+.theme-default #slider.adaptingSlider {
+    width: 750px;
+    height: 299px;
+}
+
+.adaptingSlider img.currentImage {
+    display: block;
+    width: 100%;
+}

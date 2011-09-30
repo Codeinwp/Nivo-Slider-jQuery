@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../themes/pascal/pascal.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="../themes/orman/orman.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="../nivo-slider.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../adapting-slider.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
 </head>
 <body>
@@ -16,7 +17,7 @@
 
         <div class="slider-wrapper theme-default">
             <div class="ribbon"></div>
-            <div id="slider" class="nivoSlider">
+            <div id="slider" class="nivoSlider adaptingSlider">
                 <img src="images/toystory.jpg" alt="" />
                 <a href="http://dev7studios.com"><img src="images/up.jpg" alt="" title="This is an example of a caption" /></a>
                 <img src="images/walle.jpg" alt="" />
@@ -29,10 +30,14 @@
 
     </div>
     <script type="text/javascript" src="scripts/jquery-1.6.1.min.js"></script>
-    <script type="text/javascript" src="../jquery.nivo.slider.pack.js"></script>
+    <script type="text/javascript" src="../jquery.nivo.slider.js"></script>
+    <script type="text/javascript" src="../jquery.adapting.slider.js"></script>
     <script type="text/javascript">
     $(window).load(function() {
-        $('#slider').nivoSlider();
+//        $('#slider').nivoSlider({});
+        $('#slider').nivoSlider({
+            adaptImages: true
+        });
     });
     </script>
 </body>
