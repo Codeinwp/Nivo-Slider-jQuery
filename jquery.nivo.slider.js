@@ -181,7 +181,7 @@
             } else {
                 nivoCaption.fadeOut(settings.animSpeed);
             }
-        }
+        };
 
         //Process initial  caption
         processCaption(settings);
@@ -324,25 +324,6 @@
             for (var i = 0; i < settings.slices; i++) {
                 var sliceWidth = Math.round(slider.width() / settings.slices);
                 slider.append(functions.getNivoSlice(sliceWidth, i, vars));
-//				if(i == settings.slices-1){
-//					slider.append(
-//						$('<div class="nivo-slice"></div>').css({
-//							left:(sliceWidth*i)+'px', width:(slider.width()-(sliceWidth*i))+'px',
-//							height:'0px',
-//							opacity:'0',
-//							background: 'url("'+ vars.currentImage.attr('src') +'") no-repeat -'+ ((sliceWidth + (i * sliceWidth)) - sliceWidth) +'px 0%'
-//						})
-//					);
-//				} else {
-//					slider.append(
-//						$('<div class="nivo-slice"></div>').css({
-//							left:(sliceWidth*i)+'px', width:sliceWidth+'px',
-//							height:'0px',
-//							opacity:'0',
-//							background: 'url("'+ vars.currentImage.attr('src') +'") no-repeat -'+ ((sliceWidth + (i * sliceWidth)) - sliceWidth) +'px 0%'
-//						})
-//					);
-//				}
             }
         };
 
@@ -354,29 +335,6 @@
             for (var rows = 0; rows < settings.boxRows; rows++) {
                 for (var cols = 0; cols < settings.boxCols; cols++) {
                     slider.append(functions.getNivoBox(boxWidth, boxHeight, rows, cols, vars));
-//                    if (cols == settings.boxCols - 1) {
-//                        slider.append(
-//                            $('<div class="nivo-box"></div>').css({
-//                                opacity:0,
-//                                left:(boxWidth * cols) + 'px',
-//                                top:(boxHeight * rows) + 'px',
-//                                width:(slider.width() - (boxWidth * cols)) + 'px',
-//                                height:boxHeight + 'px',
-//                                background: 'url("' + vars.currentImage.attr('src') + '") no-repeat -' + ((boxWidth + (cols * boxWidth)) - boxWidth) + 'px -' + ((boxHeight + (rows * boxHeight)) - boxHeight) + 'px'
-//                            })
-//                        );
-//                    } else {
-//                        slider.append(
-//                            $('<div class="nivo-box"></div>').css({
-//                                opacity:0,
-//                                left:(boxWidth * cols) + 'px',
-//                                top:(boxHeight * rows) + 'px',
-//                                width:boxWidth + 'px',
-//                                height:boxHeight + 'px',
-//                                background: 'url("' + vars.currentImage.attr('src') + '") no-repeat -' + ((boxWidth + (cols * boxWidth)) - boxWidth) + 'px -' + ((boxHeight + (rows * boxHeight)) - boxHeight) + 'px'
-//                            })
-//                        );
-//                    }
                 }
             }
         };
@@ -438,8 +396,8 @@
             $('.nivo-box', slider).remove();
 
             if (settings.effect == 'random') {
-                var anims = new Array('sliceDownRight', 'sliceDownLeft', 'sliceUpRight', 'sliceUpLeft', 'sliceUpDown', 'sliceUpDownLeft', 'fold', 'fade',
-                    'boxRandom', 'boxRain', 'boxRainReverse', 'boxRainGrow', 'boxRainGrowReverse');
+                var anims = ['sliceDownRight', 'sliceDownLeft', 'sliceUpRight', 'sliceUpLeft', 'sliceUpDown', 'sliceUpDownLeft', 'fold', 'fade',
+                    'boxRandom', 'boxRain', 'boxRainReverse', 'boxRainGrow', 'boxRainGrowReverse'];
                 vars.randAnim = anims[Math.floor(Math.random() * (anims.length + 1))];
                 if (vars.randAnim == undefined) vars.randAnim = 'fade';
             }
@@ -568,8 +526,11 @@
 
                 var firstSlice = $('.nivo-slice:first', slider);
                 firstSlice.css({
-                    'height': '100%',
-                    'width': slider.width() + 'px'
+                    height: '100%',
+                    width: slider.width() + 'px',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0
                 });
 
                 firstSlice.animate({ opacity:'1.0' }, (settings.animSpeed * 2), '', function() {
