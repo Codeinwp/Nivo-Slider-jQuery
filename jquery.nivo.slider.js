@@ -73,6 +73,7 @@
                     overflow: 'hidden'
 //                    background: 'url("' + vars.currentImage.attr('src') + '") no-repeat -' + ((sliceWidth + (position * sliceWidth)) - sliceWidth) + 'px 0%'
                 }).find('img').css({
+                        width: slider.width(),
                         left: '-' + ((sliceWidth + (position * sliceWidth)) - sliceWidth) + 'px'
                     }).end();
             },
@@ -86,6 +87,7 @@
                     overflow: 'hidden'
 //                    background: 'url("' + vars.currentImage.attr('src') + '") no-repeat -' + ((boxWidth + (column * boxWidth)) - boxWidth) + 'px -' + ((boxHeight + (row * boxHeight)) - boxHeight) + 'px'
                 }).find('img').css({
+                        width: slider.width(),
                         left: '-' + ((boxWidth + (column * boxWidth)) - boxWidth) + 'px',
                         top: '-' + ((boxHeight + (row * boxHeight)) - boxHeight) + 'px'
                     }).end();
