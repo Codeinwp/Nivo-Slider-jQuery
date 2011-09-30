@@ -9,13 +9,16 @@
  * September 2011
  */
 .theme-default #slider.adaptingSlider {
-    width: 750px;
-    height: 299px;
+    /*width: 750px;*/
+    /*height: 299px;*/
+    width: 50%;
+    height: auto;
 }
 
 .adaptingSlider img.currentImage {
     display: block;
     width: 100%;
+    position: relative;
 }
 
 .adaptingSlider .nivo-box img,

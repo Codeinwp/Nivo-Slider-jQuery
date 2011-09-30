@@ -126,7 +126,7 @@
             if (childWidth > slider.width()) {
                 slider.width(childWidth);
             }
-            if (childHeight > slider.height()) {
+            if (childHeight > slider.height() && !settings.adaptImages) {
                 slider.height(childHeight);
             }
             if (link != '') {
