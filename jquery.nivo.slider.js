@@ -73,6 +73,7 @@
 
                 if (!currentImage.length) {
                     currentImage = $('<img src="" alt="currentImage" class="currentImage"/>');
+                    currentImage.addClass(settings.alignBottom ? 'alignBottom' : 'alignTop');
                     slider.prepend(currentImage);
                 }
 
@@ -92,8 +93,8 @@
                 }).find('img').css({
                         width: slider.width(),
                         left: '-' + ((sliceWidth + (position * sliceWidth)) - sliceWidth) + 'px',
-                        bottom: 0,
-                        top: 'auto'
+                        bottom: settings.alignBottom ? 0 : 'auto',
+                        top: settings.alignBottom ? 'auto' : 0
                     }).end();
             },
             getNivoBox: function(boxWidth, boxHeight, row, column, totalRows, totalColumns, vars) {
@@ -110,8 +111,8 @@
                 }).find('img').css({
                         width: slider.width(),
                         left: '-' + ((boxWidth + (column * boxWidth)) - boxWidth) + 'px',
-                        top: 'auto',
-                        bottom: '-' + (boxHeight * (totalRows - (row + 1)) - 1) + 'px'
+                        top: settings.alignBottom ? 'auto' : '-' + ((boxHeight + (row * boxHeight)) - boxHeight) + 'px',
+                        bottom: settings.alignBottom ? '-' + (boxHeight * (totalRows - (row + 1)) - 1) + 'px' : 'auto'
                     }).end();
             }
         };
@@ -749,6 +750,7 @@
         controlNavThumbsReplace: '_thumb.jpg',
         adaptImages: false,
         useLargerImage: true,
+        alignBottom: false,
         keyboardNav: true,
         pauseOnHover: true,
         manualAdvance: false,

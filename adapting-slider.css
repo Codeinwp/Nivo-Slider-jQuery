@@ -21,6 +21,9 @@
     display: block;
     width: 100%;
     position: absolute;
+}
+
+.adaptingSlider img.currentImage.alignBottom {
     right: 0;
     bottom: 0;
     top: auto;
