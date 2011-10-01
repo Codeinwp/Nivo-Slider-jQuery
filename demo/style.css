@@ -87,6 +87,11 @@ a:hover, a:active {
     width:618px; /* Make sure your images are the same size */
     height:246px; /* Make sure your images are the same size */
 }
+.theme-default .adaptingSlider {
+    width: 750px;
+    height: 299px;
+}
+
 .theme-pascal.slider-wrapper,
 .theme-orman.slider-wrapper {
     margin-top:150px;
