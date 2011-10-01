@@ -47,7 +47,7 @@
                     background: background
                 });
             },
-            getNivoBox: function(boxWidth, boxHeight, row, column, totalColumns, vars) {
+            getNivoBox: function(boxWidth, boxHeight, row, column, totalRows, totalColumns, vars) {
                 var background = 'url("' + vars.currentImage.attr('src') + '") no-repeat -' + ((boxWidth + (column * boxWidth)) - boxWidth) + 'px -' + ((boxHeight + (row * boxHeight)) - boxHeight) + 'px';
                 var width = boxWidth;
                 if (column == totalColumns - 1) {
@@ -83,7 +83,7 @@
                 if (position == total - 1)
                     width = slider.width() - (sliceWidth * position);
 
-                return $('<div class="nivo-slice"><img src="' + vars.currentImage.attr('src') + '" alt=""/></div>').css({
+                return $('<div class="nivo-slice"><span><img src="' + vars.currentImage.attr('src') + '" alt=""/></span></div>').css({
                     left: (sliceWidth * position) + 'px',
                     width: width + 'px',
                     height: '0px',
@@ -91,14 +91,16 @@
                     overflow: 'hidden'
                 }).find('img').css({
                         width: slider.width(),
-                        left: '-' + ((sliceWidth + (position * sliceWidth)) - sliceWidth) + 'px'
+                        left: '-' + ((sliceWidth + (position * sliceWidth)) - sliceWidth) + 'px',
+                        bottom: 0,
+                        top: 'auto'
                     }).end();
             },
-            getNivoBox: function(boxWidth, boxHeight, row, column, totalColumns, vars) {
+            getNivoBox: function(boxWidth, boxHeight, row, column, totalRows, totalColumns, vars) {
                 var width = boxWidth;
                 if (column == totalColumns - 1)
                     width = slider.width() - (boxWidth * column);
-                return $('<div class="nivo-box"><img src="' + vars.currentImage.attr('src') + '" alt=""/></div>').css({
+                return $('<div class="nivo-box"><span><img src="' + vars.currentImage.attr('src') + '" alt=""/></span></div>').css({
                     opacity: 0,
                     left:(boxWidth * column) + 'px',
                     top:(boxHeight * row) + 'px',
@@ -108,7 +110,8 @@
                 }).find('img').css({
                         width: slider.width(),
                         left: '-' + ((boxWidth + (column * boxWidth)) - boxWidth) + 'px',
-                        top: '-' + ((boxHeight + (row * boxHeight)) - boxHeight) + 'px'
+                        top: 'auto',
+                        bottom: '-' + (boxHeight * (totalRows - (row + 1)) - 1) + 'px'
                     }).end();
             }
         };
@@ -142,10 +145,10 @@
             var childHeight = child.height();
             if (childHeight == 0) childHeight = child.attr('height');
             //Resize the slider
-            if (childWidth > slider.width()) {
+            if (childWidth > slider.width() && (settings.useLargerImage)) {
                 slider.width(childWidth);
             }
-            if (childHeight > slider.height() && !settings.adaptImages) {
+            if (childHeight > slider.height() && (settings.useLargerImage || !settings.adaptImages)) {
                 slider.height(childHeight);
             }
             if (link != '') {
@@ -353,7 +356,7 @@
 
             for (var rows = 0; rows < settings.boxRows; rows++) {
                 for (var cols = 0; cols < settings.boxCols; cols++) {
-                    slider.append(functions.getNivoBox(boxWidth, boxHeight, rows, cols, settings.boxCols, vars));
+                    slider.append(functions.getNivoBox(boxWidth, boxHeight, rows, cols, settings.boxRows, settings.boxCols, vars));
                 }
             }
         };
@@ -745,6 +748,7 @@
         controlNavThumbsSearch: '.jpg',
         controlNavThumbsReplace: '_thumb.jpg',
         adaptImages: false,
+        useLargerImage: true,
         keyboardNav: true,
         pauseOnHover: true,
         manualAdvance: false,

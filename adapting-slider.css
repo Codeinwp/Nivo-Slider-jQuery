@@ -9,22 +9,35 @@
  * September 2011
  */
 .theme-default #slider.adaptingSlider {
-    /*width: 750px;*/
-    /*height: 299px;*/
-    width: 50%;
-    height: auto;
+    width: 750px;
+    height: 299px;
+}
+
+#slider.adaptingSlider {
+    overflow: hidden;
 }
 
 .adaptingSlider img.currentImage {
     display: block;
     width: 100%;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    left: auto;
+}
+
+.adaptingSlider .nivo-box span,
+.adaptingSlider .nivo-slice span {
     position: relative;
+    display: block;
+    height: 100%;
 }
 
 .adaptingSlider .nivo-box img,
 .adaptingSlider .nivo-slice img {
     display: block;
     position: absolute;
-    top: 0;
-    left: 0;
+    right: 0;
+    bottom: 0;
 }
