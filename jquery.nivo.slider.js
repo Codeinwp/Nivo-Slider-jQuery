@@ -49,10 +49,10 @@
                     overflow: 'hidden'
                 });
             },
-            getNivoBox: function(boxWidth, boxHeight, row, column, totalRows, totalColumns, vars) {
+            getNivoBox: function(boxWidth, boxHeight, row, column, settings, vars) {
                 var background = 'url("' + vars.currentImage.attr('src') + '") no-repeat -' + ((boxWidth + (column * boxWidth)) - boxWidth) + 'px -' + ((boxHeight + (row * boxHeight)) - boxHeight) + 'px';
                 var width = boxWidth;
-                if (column == totalColumns - 1) {
+                if (column == settings.boxCols - 1) {
                     background = 'url("' + vars.currentImage.attr('src') + '") no-repeat -' + ((boxWidth + (column * boxWidth)) - boxWidth) + 'px -' + ((boxHeight + (row * boxHeight)) - boxHeight) + 'px';
                     width = (slider.width() - (boxWidth * column));
                 }
@@ -95,15 +95,15 @@
 
                 return nivoSlice;
             },
-            getNivoBox: function(boxWidth, boxHeight, row, column, totalRows, totalColumns, vars) {
-                var nivoBox = defaultFunctions.getNivoBox(boxWidth, boxHeight, row, column, totalRows, totalColumns, vars);
+            getNivoBox: function(boxWidth, boxHeight, row, column, settings, vars) {
+                var nivoBox = defaultFunctions.getNivoBox(boxWidth, boxHeight, row, column, settings, vars);
                 nivoBox.css({ background: 'none'})
                     .append('<span><img src="' + vars.currentImage.attr('src') + '" alt=""/></span>')
                     .find('img').css({
                         width: slider.width(),
                         left: '-' + ((boxWidth + (column * boxWidth)) - boxWidth) + 'px',
                         top: settings.alignBottom ? 'auto' : '-' + ((boxHeight + (row * boxHeight)) - boxHeight) + 'px',
-                        bottom: settings.alignBottom ? '-' + (boxHeight * (totalRows - (row + 1)) - 1) + 'px' : 'auto'
+                        bottom: settings.alignBottom ? '-' + (boxHeight * (settings.boxRows - (row + 1)) - 1) + 'px' : 'auto'
                     });
 
                 return nivoBox;
@@ -351,7 +351,7 @@
 
             for (var rows = 0; rows < settings.boxRows; rows++) {
                 for (var cols = 0; cols < settings.boxCols; cols++) {
-                    slider.append(functions.getNivoBox(boxWidth, boxHeight, rows, cols, settings.boxRows, settings.boxCols, vars));
+                    slider.append(functions.getNivoBox(boxWidth, boxHeight, rows, cols, settings, vars));
                 }
             }
         };
