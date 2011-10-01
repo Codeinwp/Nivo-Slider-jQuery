@@ -27,7 +27,8 @@
         };
 
         /** Additional stuff for adapt images **/
-        var functions = {
+        var functions = {};
+        var defaultFunctions = {
             setSliderBackground: function(slider, vars) {
                 slider.css('background', 'url("' + vars.currentImage.attr('src') + '") no-repeat');
             },
@@ -44,7 +45,8 @@
                     width: width + 'px',
                     height: '0px',
                     opacity: 0,
-                    background: background
+                    background: background,
+                    overflow: 'hidden'
                 });
             },
             getNivoBox: function(boxWidth, boxHeight, row, column, totalRows, totalColumns, vars) {
@@ -61,7 +63,8 @@
                     top:(boxHeight * row) + 'px',
                     width:width + 'px',
                     height:boxHeight + 'px',
-                    background: background
+                    background: background,
+                    overflow: 'hidden'
                 })
             }
         };
@@ -80,43 +83,34 @@
                 currentImage.attr('src', image.attr('src')).attr('alt', image.attr('alt'));
             },
             getNivoSlice: function(sliceWidth, position, total, vars) {
-                var width = sliceWidth;
-                if (position == total - 1)
-                    width = slider.width() - (sliceWidth * position);
-
-                return $('<div class="nivo-slice"><span><img src="' + vars.currentImage.attr('src') + '" alt=""/></span></div>').css({
-                    left: (sliceWidth * position) + 'px',
-                    width: width + 'px',
-                    height: '0px',
-                    opacity: 0,
-                    overflow: 'hidden'
-                }).find('img').css({
+                var nivoSlice = defaultFunctions.getNivoSlice(sliceWidth, position, total, vars);
+                nivoSlice.css({ background: 'none' })
+                    .append('<span><img src="' + vars.currentImage.attr('src') + '" alt=""/></span>')
+                    .find('img').css({
                         width: slider.width(),
                         left: '-' + ((sliceWidth + (position * sliceWidth)) - sliceWidth) + 'px',
                         bottom: settings.alignBottom ? 0 : 'auto',
                         top: settings.alignBottom ? 'auto' : 0
-                    }).end();
+                    });
+
+                return nivoSlice;
             },
             getNivoBox: function(boxWidth, boxHeight, row, column, totalRows, totalColumns, vars) {
-                var width = boxWidth;
-                if (column == totalColumns - 1)
-                    width = slider.width() - (boxWidth * column);
-                return $('<div class="nivo-box"><span><img src="' + vars.currentImage.attr('src') + '" alt=""/></span></div>').css({
-                    opacity: 0,
-                    left:(boxWidth * column) + 'px',
-                    top:(boxHeight * row) + 'px',
-                    width:width + 'px',
-                    height:boxHeight + 'px',
-                    overflow: 'hidden'
-                }).find('img').css({
+                var nivoBox = defaultFunctions.getNivoBox(boxWidth, boxHeight, row, column, totalRows, totalColumns, vars);
+                nivoBox.css({ background: 'none'})
+                    .append('<span><img src="' + vars.currentImage.attr('src') + '" alt=""/></span>')
+                    .find('img').css({
                         width: slider.width(),
                         left: '-' + ((boxWidth + (column * boxWidth)) - boxWidth) + 'px',
                         top: settings.alignBottom ? 'auto' : '-' + ((boxHeight + (row * boxHeight)) - boxHeight) + 'px',
                         bottom: settings.alignBottom ? '-' + (boxHeight * (totalRows - (row + 1)) - 1) + 'px' : 'auto'
-                    }).end();
+                    });
+
+                return nivoBox;
             }
         };
 
+        $.extend(functions, defaultFunctions);
         if (settings.adaptImages)
             $.extend(functions, adaptImagesFunctions);
 
