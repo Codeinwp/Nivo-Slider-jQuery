@@ -97,13 +97,15 @@
             },
             getNivoBox: function(boxWidth, boxHeight, row, column, settings, vars) {
                 var nivoBox = defaultFunctions.getNivoBox(boxWidth, boxHeight, row, column, settings, vars);
-                nivoBox.css({ background: 'none'})
+                var top = settings.alignBottom ? false: ((boxHeight + (row * boxHeight)) - boxHeight) + 'px';
+                var bottom = settings.alignBottom ? (boxHeight * (settings.boxRows - (row + 1))) + 'px' : false;
+                nivoBox.css({ background: 'none', top: top || 'auto', bottom: bottom || 'auto'})
                     .append('<span><img src="' + vars.currentImage.attr('src') + '" alt=""/></span>')
                     .find('img').css({
                         width: slider.width(),
                         left: '-' + ((boxWidth + (column * boxWidth)) - boxWidth) + 'px',
-                        top: settings.alignBottom ? 'auto' : '-' + ((boxHeight + (row * boxHeight)) - boxHeight) + 'px',
-                        bottom: settings.alignBottom ? '-' + (boxHeight * (settings.boxRows - (row + 1)) - 1) + 'px' : 'auto'
+                        top: top ? '-' + top : 'auto',
+                        bottom: bottom ? '-' + bottom : 'auto'
                     });
 
                 return nivoBox;
