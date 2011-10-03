@@ -77,6 +77,7 @@
                 if (!currentImage.length) {
                     currentImage = $('<img src="" alt="currentImage" class="currentImage"/>');
                     currentImage.addClass(settings.alignBottom ? 'alignBottom' : 'alignTop');
+                    currentImage.css({display: 'block'});
                     slider.prepend(currentImage);
                 }
 
@@ -87,6 +88,7 @@
                 nivoSlice.css({ background: 'none' })
                     .append('<span><img src="' + vars.currentImage.attr('src') + '" alt=""/></span>')
                     .find('img').css({
+                        display: 'block',
                         width: slider.width(),
                         left: '-' + ((sliceWidth + (position * sliceWidth)) - sliceWidth) + 'px',
                         bottom: settings.alignBottom ? 0 : 'auto',
@@ -102,6 +104,7 @@
                 nivoBox.css({ background: 'none', top: top || 'auto', bottom: bottom || 'auto'})
                     .append('<span><img src="' + vars.currentImage.attr('src') + '" alt=""/></span>')
                     .find('img').css({
+                        display: 'block',
                         width: slider.width(),
                         left: '-' + ((boxWidth + (column * boxWidth)) - boxWidth) + 'px',
                         top: top ? '-' + top : 'auto',
