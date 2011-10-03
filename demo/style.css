@@ -87,7 +87,8 @@ a:hover, a:active {
     width:618px; /* Make sure your images are the same size */
     height:246px; /* Make sure your images are the same size */
 }
-.theme-default .adaptingSlider {
+
+.theme-default #slider.adaptingSlider {
     width: 750px;
     height: 299px;
 }

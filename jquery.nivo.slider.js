@@ -332,6 +332,8 @@
                     nivoRun(slider, kids, settings, false);
                 }, settings.pauseTime);
             }
+
+            functions.setSliderBackground(slider, vars);
             //Trigger the afterChange callback
             settings.afterChange.call(this);
         });
@@ -372,17 +374,6 @@
             //Trigger the beforeChange callback
             settings.beforeChange.call(this);
 
-            //Set current background before change
-            if (!nudge) {
-                functions.setSliderBackground(slider, vars);
-            } else {
-                if (nudge == 'prev') {
-                    functions.setSliderBackground(slider, vars);
-                }
-                if (nudge == 'next') {
-                    functions.setSliderBackground(slider, vars);
-                }
-            }
             vars.currentSlide++;
             //Trigger the slideshowEnd callback
             if (vars.currentSlide == vars.totalSlides) {
@@ -677,7 +668,7 @@
                     timeBuff += 100;
                 }
             }
-        }
+        };
 
         // Shuffle an array
         var shuffle = function(arr) {
