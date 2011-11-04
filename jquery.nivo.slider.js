@@ -92,8 +92,13 @@
 		// Process caption function
 		var processCaption = function(settings){
 			var nivoCaption = $('.nivo-caption', slider);
-			if(vars.currentImage.attr('title') != '' && vars.currentImage.attr('title') != undefined){
+			if((vars.currentImage.attr('title') != '' && vars.currentImage.attr('title') != undefined) ||
+                     (vars.currentImage.attr('alt') != '' && vars.currentImage.attr('alt') != undefined)){
 				var title = vars.currentImage.attr('title');
+                        if(!title){
+                                title = vars.currentImage.attr('alt')
+                        }
+                        
 				if(title.substr(0,1) == '#') title = $(title).html();	
 
 				if(nivoCaption.css('display') == 'block'){
