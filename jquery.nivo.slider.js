@@ -1,5 +1,5 @@
 /*
- * jQuery Nivo Slider v2.7
+ * jQuery Nivo Slider v2.7.1
  * http://nivo.dev7studios.com
  *
  * Copyright 2011, Gilbert Pellegrom
@@ -91,7 +91,10 @@
         //Create caption
         slider.append(
             $('<div class="nivo-caption"><p></p></div>').css({ display:'none', opacity:settings.captionOpacity })
-        );			
+        );		
+        
+        // Cross browser default caption opacity
+        $('.nivo-caption', slider).css('opacity', 0);
 		
 		// Process caption function
 		var processCaption = function(settings){
@@ -100,17 +103,17 @@
 				var title = vars.currentImage.attr('title');
 				if(title.substr(0,1) == '#') title = $(title).html();	
 
-				if(nivoCaption.css('display') == 'block'){
-					nivoCaption.find('p').stop().fadeOut(settings.animSpeed, function(){
+				if(nivoCaption.css('opacity') != 0){
+					nivoCaption.find('p').stop().fadeTo(settings.animSpeed, 0, function(){
 						$(this).html(title);
-						$(this).stop().fadeIn(settings.animSpeed);
+						$(this).stop().fadeTo(settings.animSpeed, 1);
 					});
 				} else {
 					nivoCaption.find('p').html(title);
 				}					
-				nivoCaption.stop().fadeIn(settings.animSpeed);
+				nivoCaption.stop().fadeTo(settings.animSpeed, settings.captionOpacity);
 			} else {
-				nivoCaption.stop().fadeOut(settings.animSpeed);
+				nivoCaption.stop().fadeTo(settings.animSpeed, 0);
 			}
 		}
 		
