@@ -172,6 +172,7 @@
                         nivoControl.append('<a class="nivo-control" rel="'+ i +'"><img src="'+ child.attr('src').replace(settings.controlNavThumbsSearch, settings.controlNavThumbsReplace) +'" alt="" /></a>');
                     }
                 } else {
+                    $('.controlnav-thumbs').removeClass('controlnav-thumbs');
                     nivoControl.append('<a class="nivo-control" rel="'+ i +'">'+ (i + 1) +'</a>');
                 }
                 
