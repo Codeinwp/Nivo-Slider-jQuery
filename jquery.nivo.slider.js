@@ -494,7 +494,7 @@
                     'width': slider.width() + 'px'
                 });
     
-				firstSlice.animate({ opacity:'1.0' }, (settings.animSpeed*2), '', function(){ slider.trigger('nivo:animFinished'); });
+				firstSlice.animate({ opacity:'1.0' }, (settings.animSpeed), '', function(){ slider.trigger('nivo:animFinished'); });
 			}          
             else if(currentEffect == 'slideInRight'){
 				createSlices(slider, settings, vars);
@@ -506,7 +506,7 @@
                     'opacity': '1'
                 });
 
-                firstSlice.animate({ width: slider.width() + 'px' }, (settings.animSpeed*2), '', function(){ slider.trigger('nivo:animFinished'); });
+                firstSlice.animate({ width: slider.width() + 'px' }, (settings.animSpeed), '', function(){ slider.trigger('nivo:animFinished'); });
             }
             else if(currentEffect == 'slideInLeft'){
 				createSlices(slider, settings, vars);
@@ -520,7 +520,7 @@
                     'right': '0px'
                 });
 
-                firstSlice.animate({ width: slider.width() + 'px' }, (settings.animSpeed*2), '', function(){ 
+                firstSlice.animate({ width: slider.width() + 'px' }, (settings.animSpeed), '', function(){ 
                     // Reset positioning
                     firstSlice.css({
                         'left': '0px',
