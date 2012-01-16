@@ -391,7 +391,7 @@
 				var timeBuff = 0;
 				var i = 0;
 				var slices = $('.nivo-slice', slider);
-				if(currentEffect == 'sliceDownLeft') slices = $('.nivo-slice', slider)._reverse();
+				if(currentEffect == 'sliceDownLeft') slices = slices._reverse();
 				
 				slices.each(function(){
 					var slice = $(this);
@@ -414,7 +414,7 @@
 				var timeBuff = 0;
 				var i = 0;
 				var slices = $('.nivo-slice', slider);
-				if(currentEffect == 'sliceUpLeft') slices = $('.nivo-slice', slider)._reverse();
+				if(currentEffect == 'sliceUpLeft') slices = slices._reverse();
 				
 				slices.each(function(){
 					var slice = $(this);
@@ -438,7 +438,7 @@
 				var i = 0;
 				var v = 0;
 				var slices = $('.nivo-slice', slider);
-				if(currentEffect == 'sliceUpDownLeft') slices = $('.nivo-slice', slider)._reverse();
+				if(currentEffect == 'sliceUpDownLeft') slices = slices._reverse();
 				
 				slices.each(function(){
 					var slice = $(this);
@@ -566,10 +566,10 @@
 				box2Darr[rowIndex] = new Array();
 				var boxes = $('.nivo-box', slider);
 				if(currentEffect == 'boxRainReverse' || currentEffect == 'boxRainGrowReverse'){
-					boxes = $('.nivo-box', slider)._reverse();
+					boxes = boxes._reverse();
 				}
 				boxes.each(function(){
-					box2Darr[rowIndex][colIndex] = $(this);
+					box2Darr[rowIndex][colIndex] = this;
 					colIndex++;
 					if(colIndex == settings.boxCols){
 						rowIndex++;
