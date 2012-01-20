@@ -34,14 +34,14 @@
 
 		//Find our slider children
 		var kids = slider.children(),
-			kidsCount = kids.length,
-			kidsIndex = 0,
+			kidsIndex = kids.length,
 			child,
 			childWidth = 0,
 			childHeight = 0,
-			link = '';
+			link = null;
 
-		do{
+		//Set up some stuff
+		while(--kidsIndex + 1){
 			child = $(kids[kidsIndex]);
 
 			if(!child.is('img')){
@@ -67,14 +67,13 @@
 				slider.height(childHeight);
 			}
 
-			if(link != ''){
+			if(link){
 				link.css('display','none');
 			}
 			child.css('display','none');
 
 			++vars.totalSlides;
 		}
-		while(++kidsIndex < kidsCount);
 
 		//If randomStart
 		if(settings.randomStart){
