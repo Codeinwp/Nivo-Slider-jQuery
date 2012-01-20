@@ -447,20 +447,12 @@
 				'boxRandom','boxRain','boxRainReverse','boxRainGrow','boxRainGrowReverse'];
 
 				currentEffect = anims[Math.floor(Math.random() * (anims.length - 1))];
-				if(currentEffect === undefined){
-					currentEffect = 'fade';
-				}
 			}
-
 			//Run random effect from specified set (eg: effect:'fold,fade')
-			if(settings.effect.indexOf(',') !== -1){
+			else if(settings.effect.indexOf(',') !== -1){
 				var anims = settings.effect.split(',');
 
 				currentEffect = anims[Math.floor(Math.random() * anims.length)];
-
-				if(currentEffect == undefined){
-					currentEffect = 'fade';
-				}
 			}
 
 			//Custom transition as defined by "data-transition" attribute
@@ -585,6 +577,7 @@
 					while(++sliceIndex < settings.slices);
 				break;
 
+				default:
 				case 'fade':
 					createSlices(slider, settings, vars);
 
