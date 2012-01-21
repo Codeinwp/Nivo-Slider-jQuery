@@ -368,7 +368,7 @@
 				background: '',
 				left: '',
 				width: '',
-				height: '0px',
+				height: '0',
 				opacity: 0
 			};
 
@@ -560,7 +560,7 @@
 					do{
 						slice = $(slices[sliceIndex]);
 
-						slice.css({ 'top': '0px' });
+						slice.css({ 'top': '0' });
 
 						timedAnimate(slice, { height: '100%', opacity: 1 }, null, timeBuff, (sliceIndex === settings.slices - 1) ? true : false);
 
@@ -586,7 +586,7 @@
 					do{
 						slice = $(slices[sliceIndex]);
 
-						slice.css({ 'bottom': '0px' });
+						slice.css({ 'bottom': '0' });
 
 						timedAnimate(slice, { height: '100%', opacity: 1 }, null, timeBuff, (sliceIndex === settings.slices - 1) ? true : false);
 
@@ -614,9 +614,9 @@
 						slice = $(slices[sliceIndex]);
 
 						if(top){
-							slice.css('top', '0px');
+							slice.css('top', '0');
 						} else {
-							slice.css('bottom', '0px');
+							slice.css('bottom', '0');
 						}
 						// flip bool
 						top = !top;
@@ -641,7 +641,7 @@
 						slice = $(slices[sliceIndex]);
 						sliceWidth = slice.width();
 
-						slice.css({ top: '0px', height: '100%', width: '0px' });
+						slice.css({ top: '0', height: '100%', width: '0' });
 
 						timedAnimate(slice, { width: sliceWidth +'px', opacity: 1 }, null, timeBuff, (sliceIndex === settings.slices - 1) ? true : false);
 
@@ -669,26 +669,22 @@
 				case 'slideInRight':
 					createSlices();
 
-					var	sliderWidth = el.slider.width(),
-						firstSlice = $('.nivo-slice', el.slider).eq(0),
-						slideInLeft = (currentEffect === 'slideInLeft' || (currentEffect === 'slideIn' && vars.currentSlideIndex > vars.previousSlideIndex)) ? true : false;
+					var	firstSlice = $('.nivo-slice', el.slider).eq(0),
+						slideInLeft = (currentEffect === 'slideInLeft' || (currentEffect === 'slideIn' && vars.currentSlideIndex < vars.previousSlideIndex)) ? true : false;
 
 					var	css = {
-						left: '',
-						right: sliderWidth +'px',
-						width: sliderWidth +'px',
+						backgroundPosition: (slideInLeft) ? '100% 0' : '0 0',
+						left: (slideInLeft) ? '0' : '',
+						right: (slideInLeft) ? '' : '0',
+						width: '0',
 						height: '100%',
 						opacity: 1
 					};
 
-					if (slideInLeft){
-						css.right = -sliderWidth +'px';
-					}
-
 					firstSlice
 						.css(css)
 
-						.animate({ right: '0px' }, (settings.animSpeed * 2), '', function(){
+						.animate({ width: el.slider.width() }, (settings.animSpeed * 2), '', function(){
 							el.slider.trigger('nivo:animFinished');
 						});
 				break;
