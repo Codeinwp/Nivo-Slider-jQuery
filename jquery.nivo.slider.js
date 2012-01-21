@@ -145,8 +145,10 @@
 
 		//In the words of Super Mario "let's a go!"
 		var timer = 0;
-		if(!settings.manualAdvance && vars.totalSlides > 1){
-			timer = setInterval(function(){ nivoRun(false); }, settings.pauseTime);
+		if (vars.totalSlides > 1){
+			if(!settings.manualAdvance){
+				timer = setInterval(function(){ nivoRun(false); }, settings.pauseTime);
+			}
 		} else {
 			// "oh dear!"
 			return false;
@@ -258,7 +260,7 @@
 		if(settings.keyboardNav){
 			$(document).keydown(function(e){
 				var code = (e.keyCode) ? e.keyCode : e.which;
-				
+
 				//Left
 				if(code === 37 || code === 63234){
 					if(vars.running){
