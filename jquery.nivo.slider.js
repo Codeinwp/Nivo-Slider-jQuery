@@ -256,9 +256,11 @@
 
 		//Keyboard Navigation
 		if(settings.keyboardNav){
-			$(document).keypress(function(e){
+			$(document).keydown(function(e){
+				var code = (e.keyCode) ? e.keyCode : e.which;
+				
 				//Left
-				if(e.keyCode == '37'){
+				if(code === 37 || code === 63234){
 					if(vars.running){
 						return false;
 					}
@@ -269,7 +271,7 @@
 					nivoRun('prev');
 				}
 				//Right
-				else if(e.keyCode == '39'){
+				else if(code === 39 || code === 63235){
 					if(vars.running){
 						return false;
 					}
@@ -734,8 +736,6 @@
 						curCol = cols;
 
 						do{
-							++i;
-
 							if(curCol >= 0 && curCol < settings.boxCols){
 								box = $(box2Darr[rows][curCol]);
 								boxWidth = box.width();
@@ -745,7 +745,7 @@
 									box.width(0).height(0);
 								}
 
-								timedAnimate(box, { width: boxWidth, height: boxHeight, opacity: 1}, settings.animSpeed / 1.3, timeBuff, (i === totalBoxes) ? true : false);
+								timedAnimate(box, { width: boxWidth, height: boxHeight, opacity: 1}, settings.animSpeed / 1.3, timeBuff, (++i === totalBoxes) ? true : false);
 							}
 
 							--curCol;
