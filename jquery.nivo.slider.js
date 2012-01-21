@@ -1,13 +1,13 @@
-/*
- * jQuery Nivo Slider v2.7.1
- * http://nivo.dev7studios.com
- *
- * Copyright 2011, Gilbert Pellegrom
- * Free to use and abuse under the MIT license.
- * http://www.opensource.org/licenses/mit-license.php
- *
- * January 2012
- */
+/**
+* jQuery Nivo Slider v2.7.1
+* http://nivo.dev7studios.com
+*
+* Copyright 2011, Gilbert Pellegrom
+* Free to use and abuse under the MIT license.
+* http://www.opensource.org/licenses/mit-license.php
+*
+* January 2012
+*/
 
 (function($){
 
@@ -515,7 +515,7 @@
 
 			var timedAnimate = function(element, css, speed, buff, end){
 				setTimeout(function(){
-					element.animate(css, (!speed) ? settings.animSpeed : speed, '', (end) ? function(){ el.slider.trigger('nivo:animFinished'); _log((end) ? 'the end' : ''); } : null);
+					element.animate(css, (!speed) ? settings.animSpeed : speed, '', (end) ? function(){ el.slider.trigger('nivo:animFinished'); } : null);
 				}, 100 + buff)
 			}
 
