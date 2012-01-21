@@ -18,6 +18,7 @@
 
 		//Useful variables. Play carefully.
 		var vars = {
+			previousSlideIndex: 0,
 			currentSlideIndex: 0,
 			currentImage: {},
 			totalSlides: 0,
@@ -86,7 +87,7 @@
 			vars.currentSlideIndex = settings.startSlide;
 		}
 
-		// add caption elements to element object
+		// add current slide element to element object
 		el.currentSlide = $(el.slides[vars.currentSlideIndex]);
 
 		//Get initial image
@@ -147,10 +148,15 @@
 		var timer = 0;
 		if (vars.totalSlides > 1){
 			if(!settings.manualAdvance){
-				timer = setInterval(function(){ nivoRun(false); }, settings.pauseTime);
+				timer = setInterval(function(){
+					// store previous index
+					vars.previousSlideIndex = vars.currentSlideIndex;
+
+					nivoRun(false);
+				}, settings.pauseTime);
 			}
 		} else {
-			// "oh dear!"
+			// "oops. I meant to do that."
 			return false;
 		}
 
@@ -190,6 +196,9 @@
 
 						clearInterval(timer);
 						timer = null;
+
+						// store previous index
+						vars.previousSlideIndex = vars.currentSlideIndex;
 
 						if (dir === 'prev'){
 							vars.currentSlideIndex -= 2;
@@ -248,6 +257,9 @@
 
 						el.slider.css('background', 'url("'+ vars.currentImage.url +'") no-repeat');
 
+						// store previous index
+						vars.previousSlideIndex = vars.currentSlideIndex;
+
 						vars.currentSlideIndex = anchor.data('slide') - 1;
 						nivoRun('control');
 					}
@@ -260,6 +272,9 @@
 		if(settings.keyboardNav){
 			$(document).keydown(function(e){
 				var code = (e.keyCode) ? e.keyCode : e.which;
+
+				// store previous index
+				vars.previousSlideIndex = vars.currentSlideIndex;
 
 				//Left
 				if(code === 37 || code === 63234){
@@ -299,7 +314,12 @@
 
 					//Restart the timer
 					if(timer === null && !settings.manualAdvance){
-						timer = setInterval(function(){ nivoRun(false); }, settings.pauseTime);
+						timer = setInterval(function(){
+							// store previous index
+							vars.previousSlideIndex = vars.currentSlideIndex;
+
+							nivoRun(false);
+						}, settings.pauseTime);
 					}
 				}
 			);
@@ -327,7 +347,7 @@
 			}
 
 			//Restart the timer
-			if(timer == '' && !vars.paused && !settings.manualAdvance){
+			if(timer === null && !vars.paused && !settings.manualAdvance){
 				timer = setInterval(function(){ nivoRun(false); }, settings.pauseTime);
 			}
 
@@ -458,11 +478,13 @@
 
 			//Trigger the slideshowEnd callback
 			if(vars.currentSlideIndex == vars.totalSlides){
+				vars.previousSlideIndex = vars.totalSlides - 1;
 				vars.currentSlideIndex = 0;
 				settings.slideshowEnd.call(this);
 			}
 			else if(vars.currentSlideIndex < 0){
-				vars.currentSlideIndex = (vars.totalSlides - 1);
+				vars.previousSlideIndex = 0;
+				vars.currentSlideIndex = vars.totalSlides - 1;
 			}
 
 			// update current slide element
@@ -499,9 +521,8 @@
 
 				currentEffect = anims[Math.floor(Math.random() * (anims.length - 1))];
 			}
-
 			//Run random effect from specified set (eg: effect:'fold,fade')
-			if(settings.effect.indexOf(',') !== -1){
+			else if(settings.effect.indexOf(',') !== -1){
 				var anims = settings.effect.split(',');
 
 				currentEffect = anims[Math.floor(Math.random() * anims.length)];
@@ -643,30 +664,31 @@
 						});
 				break;
 
+				case 'slideIn':
+				case 'slideInLeft':
 				case 'slideInRight':
 					createSlices();
 
-					var firstSlice = $('.nivo-slice', el.slider).eq(0);
+					var	sliderWidth = el.slider.width(),
+						firstSlice = $('.nivo-slice', el.slider).eq(0),
+						slideInLeft = (currentEffect === 'slideInLeft' || (currentEffect === 'slideIn' && vars.currentSlideIndex > vars.previousSlideIndex)) ? true : false;
+
+					var	css = {
+						left: '',
+						right: sliderWidth +'px',
+						width: sliderWidth +'px',
+						height: '100%',
+						opacity: 1
+					};
+
+					if (slideInLeft){
+						css.right = -sliderWidth +'px';
+					}
 
 					firstSlice
-						.css({ height: '100%', width: '0px', opacity: 1})
+						.css(css)
 
-						.animate({ width: el.slider.width() +'px' }, (settings.animSpeed * 2), '', function(){
-							el.slider.trigger('nivo:animFinished');
-						});
-				break;
-
-				case 'slideInLeft':
-					createSlices();
-
-					var firstSlice = $('.nivo-slice', el.slider).eq(0);
-
-					firstSlice
-						.css({ height: '100%', width: '0px', opacity: 1, left: '', right: '0px' })
-
-						.animate({ width: el.slider.width() +'px' }, (settings.animSpeed * 2), '', function(){
-							// Reset positioning
-							firstSlice.css({ left: '0px', right: '' });
+						.animate({ right: '0px' }, (settings.animSpeed * 2), '', function(){
 							el.slider.trigger('nivo:animFinished');
 						});
 				break;
@@ -702,7 +724,8 @@
 						rowIndex = 0,
 						colIndex = 0,
 						boxes = $('.nivo-box', el.slider),
-						boxIndex = 0;
+						boxIndex = 0,
+						i = totalBoxes;
 
 					if(currentEffect == 'boxRainReverse' || currentEffect == 'boxRainGrowReverse'){
 						boxes = boxes._reverse();
@@ -714,6 +737,7 @@
 					do{
 						box2Darr[rowIndex][colIndex] = boxes[boxIndex];
 						++colIndex;
+						++boxIndex;
 
 						if(colIndex === settings.boxCols){
 							++rowIndex;
@@ -723,7 +747,7 @@
 							colIndex = 0;
 						}
 					}
-					while(++boxIndex < totalBoxes);
+					while(--i);
 
 					var cols = 0,
 						rows = 0,
