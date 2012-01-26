@@ -81,9 +81,12 @@
 
 		//Set startSlide
 		if(settings.startSlide > 0){
+			// limit startslide at total slides count
 			if(settings.startSlide >= vars.totalSlides){
 				settings.startSlide = vars.totalSlides - 1;
 			}
+			
+			vars.previousSlideIndex = settings.startSlide - 1;
 			vars.currentSlideIndex = settings.startSlide;
 		}
 
@@ -92,12 +95,16 @@
 
 		//Get initial image
 		if(el.currentSlide.is('img')){
-			vars.currentImage.url = el.currentSlide.attr('src');
-			vars.currentImage.title = el.currentSlide.attr('title');
+			vars.currentImage = {
+				url: el.currentSlide.attr('src'),
+				title: el.currentSlide.attr('title')
+			};
 		} else {
-			var img = el.currentSlide.find('img').eq(0);
-			vars.currentImage.url = img.attr('src');
-			vars.currentImage.title = img.attr('title');
+			vars.currentImage = el.currentSlide.find('img').eq(0);
+			vars.currentImage = {
+				url: vars.currentImage.attr('src'),
+				title: vars.currentImage.attr('title')
+			};
 		}
 
 		//Show initial link
@@ -122,7 +129,7 @@
 
 		// Process caption function
 		var processCaption = function(){
-			var title = (vars.currentImage.title) ? vars.currentImage.title : null;
+			var title = vars.currentImage.title || null;
 
 			if(title){
 				if(title.substr(0,1) == '#'){
@@ -144,20 +151,16 @@
 		//Process initial caption
 		processCaption();
 
-		//In the words of Super Mario "let's a go!"
-		var timer = 0;
-		if (vars.totalSlides > 1){
-			if(!settings.manualAdvance){
-				timer = setInterval(function(){
-					// store previous index
-					vars.previousSlideIndex = vars.currentSlideIndex;
-
-					nivoRun(false);
-				}, settings.pauseTime);
-			}
-		} else {
-			// "oops. I meant to do that."
+		// we need more than one slide!
+		if(vars.totalSlides < 2){
 			return false;
+		}
+		
+		var timer = null;
+
+		//In the words of Super Mario "let's a go!"
+		if(!settings.manualAdvance){
+			timer = setInterval(function(){ nivoRun(false); }, settings.pauseTime);
 		}
 
 		//Add Direction nav
@@ -187,8 +190,7 @@
 				.children()
 				.click(
 					function(){
-						var dir = $(this).data('dir');
-						dir = (dir) ? dir : 'next';
+						var dir = $(this).data('dir') || 'next';
 
 						if(vars.running){
 							return false;
@@ -197,10 +199,8 @@
 						clearInterval(timer);
 						timer = null;
 
-						// store previous index
-						vars.previousSlideIndex = vars.currentSlideIndex;
-
 						if (dir === 'prev'){
+							vars.previousSlideIndex -= 1;
 							vars.currentSlideIndex -= 2;
 						}
 						nivoRun(dir);
@@ -257,9 +257,6 @@
 
 						el.slider.css('background', 'url("'+ vars.currentImage.url +'") no-repeat');
 
-						// store previous index
-						vars.previousSlideIndex = vars.currentSlideIndex;
-
 						vars.currentSlideIndex = anchor.data('slide') - 1;
 						nivoRun('control');
 					}
@@ -271,30 +268,22 @@
 		//Keyboard Navigation
 		if(settings.keyboardNav){
 			$(document).keydown(function(e){
-				var code = (e.keyCode) ? e.keyCode : e.which;
+				var code = e.keyCode || e.which;
+				
+				if(vars.running){
+					return false;
+				}
 
-				// store previous index
-				vars.previousSlideIndex = vars.currentSlideIndex;
+				clearInterval(timer);
+				timer = null;
 
 				//Left
 				if(code === 37 || code === 63234){
-					if(vars.running){
-						return false;
-					}
-
-					clearInterval(timer);
-					timer = null;
 					vars.currentSlideIndex -= 2;
 					nivoRun('prev');
 				}
 				//Right
 				else if(code === 39 || code === 63235){
-					if(vars.running){
-						return false;
-					}
-
-					clearInterval(timer);
-					timer = null;
 					nivoRun('next');
 				}
 			});
@@ -314,12 +303,7 @@
 
 					//Restart the timer
 					if(timer === null && !settings.manualAdvance){
-						timer = setInterval(function(){
-							// store previous index
-							vars.previousSlideIndex = vars.currentSlideIndex;
-
-							nivoRun(false);
-						}, settings.pauseTime);
+						timer = setInterval(function(){ nivoRun(false);	}, settings.pauseTime);
 					}
 				}
 			);
@@ -356,10 +340,11 @@
 		});
 
 		// Add slices for slice animations
-		var createSlices = function(){
+		var createSlices = function(slices){
 			var	sliderImg = vars.currentImage.url,
 				sliderWidth = el.slider.width(),
-				slices = 0,
+				i = 0,
+				sliceLimit = slices || settings.slices,
 				slicesHTML = document.createDocumentFragment(),
 				sliceWidth,
 				offset;
@@ -373,22 +358,22 @@
 			};
 
 			do{
-				sliceWidth = Math.round(sliderWidth / settings.slices);
-				offset = sliceWidth * slices;
+				sliceWidth = Math.round(sliderWidth / sliceLimit);
+				offset = sliceWidth * i;
 
 				css.left = offset +'px';
 				css.background = 'url("'+ sliderImg +'") no-repeat -'+ ((sliceWidth + offset) - sliceWidth) +'px 0%';
 				css.width = sliceWidth +'px';
 
 				// fix up uneven spacing
-				if(slices == settings.slices - 1){
+				if(i === sliceLimit - 1){
 					css.width = (sliderWidth - offset) +'px';
 				}
 
 				// add slice to fragment - use jQuery to add css
 				slicesHTML.appendChild($('<div class="nivo-slice"></div>').css(css)[0]);
 			}
-			while(++slices < settings.slices);
+			while(++i < sliceLimit);
 
 			// insert slices as a whole
 			el.slider.append(slicesHTML);
@@ -401,8 +386,8 @@
 				boxHeight = Math.round(el.slider.height() / settings.boxRows),
 				boxesHTML = document.createDocumentFragment(),
 				offsetLeft = 0,
-				rows = 0,
-				cols = 0;
+				row = 0,
+				col = 0;
 
 			var css = {
 				background: 'url("'+ vars.currentImage.url +'") no-repeat',
@@ -416,30 +401,30 @@
 
 			do{
 				// row specific styles
-				css.top = (boxHeight * rows) +'px';
+				css.top = (boxHeight * row) +'px';
 				css.width = boxWidth +'px';
 
 				do{
-					offsetLeft = boxWidth * cols;
+					offsetLeft = boxWidth * col;
 
 					// column specific styles
-					css.left = (boxWidth * cols) +'px';
-					css.backgroundPosition = '-'+ ((boxWidth + offsetLeft) - boxWidth) +'px -'+ ((boxHeight + (rows * boxHeight)) - boxHeight) +'px';
+					css.left = offsetLeft +'px';
+					css.backgroundPosition = '-'+ ((boxWidth + offsetLeft) - boxWidth) +'px -'+ ((boxHeight + (row * boxHeight)) - boxHeight) +'px';
 
 					// fix up uneven spacing
-					if(cols === settings.boxCols - 1){
+					if(col === settings.boxCols - 1){
 						css.width = (sliderWidth - offsetLeft) +'px';
 					}
 
 					// add box to fragment - use jQuery to add css
 					boxesHTML.appendChild($('<div class="nivo-box"></div>').css(css)[0]);
 				}
-				while(++cols < settings.boxCols);
+				while(++col < settings.boxCols);
 
 				// reset columns
-				cols = 0;
+				col = 0;
 			}
-			while(++rows < settings.boxRows);
+			while(++row < settings.boxRows);
 
 			// insert boxes as a whole
 			el.slider.append(boxesHTML);
@@ -456,47 +441,53 @@
 			}
 
 			// Stop
-			if((!vars || vars.stop) && !nudge) return false;
+			if((!vars || vars.stop) && !nudge){
+				return false;
+			}
 
 			//Trigger the beforeChange callback
 			settings.beforeChange.call(this);
 
 			//Set current background before change
-			if(!nudge){
-				el.slider.css('background','url("'+ vars.currentImage.url +'") no-repeat');
-			} else {
-				if(nudge == 'prev'){
-					el.slider.css('background','url("'+ vars.currentImage.url +'") no-repeat');
-				}
-				if(nudge == 'next'){
-					el.slider.css('background','url("'+ vars.currentImage.url +'") no-repeat');
-				}
-			}
+			el.slider.css('background','url("'+ vars.currentImage.url +'") no-repeat');
 
-			// increment current slide
+			// previous index is stored at the end of this function
+
+			// increment current index
 			++vars.currentSlideIndex;
 
-			//Trigger the slideshowEnd callback
-			if(vars.currentSlideIndex == vars.totalSlides){
+			if(vars.currentSlideIndex >= vars.totalSlides){
 				vars.previousSlideIndex = vars.totalSlides - 1;
 				vars.currentSlideIndex = 0;
+
+				//Trigger the slideshowEnd callback
 				settings.slideshowEnd.call(this);
 			}
+			else if(vars.currentSlideIndex === 0){
+				vars.previousSlideIndex = vars.totalSlides - 1;
+			}
 			else if(vars.currentSlideIndex < 0){
-				vars.previousSlideIndex = 0;
 				vars.currentSlideIndex = vars.totalSlides - 1;
+				vars.previousSlideIndex = vars.totalSlides - 2;
 			}
 
+			// update previous slide element
+			el.previousSlide = el.currentSlide;
+			
 			// update current slide element
 			el.currentSlide = $(el.slides[vars.currentSlideIndex]);
 			el.currentSlide = (el.currentSlide.is('img')) ? el.currentSlide : el.currentSlide.find('img').eq(0);
 
-			//Set vars.currentImage
+			//Set slide images
+			vars.previousImage = {
+				url: el.previousSlide.attr('src')
+			};
+
 			vars.currentImage = {
 				url: el.currentSlide.attr('src'),
 				title: el.currentSlide.attr('title'),
 				transition: el.currentSlide.data('transition')
-			}
+			};
 
 			//Set active links
 			if(settings.controlNav){
@@ -508,16 +499,15 @@
 
 			// Remove any slices from last transition
 			$('.nivo-slice', el.slider).remove();
-
 			// Remove any boxes from last transition
 			$('.nivo-box', el.slider).remove();
 
-			var currentEffect = settings.effect;
+			var currentEffect = settings.effect || 'fade';
 
 			//Generate random effect
 			if(settings.effect === 'random'){
 				var anims = ['sliceDownRight','sliceDownLeft','sliceUpRight','sliceUpLeft','sliceUpDown','sliceUpDownLeft','fold','fade',
-				'boxRandom','boxRain','boxRainReverse','boxRainGrow','boxRainGrowReverse'];
+				'cycle', 'boxRandom','boxRain','boxRainReverse','boxRainGrow','boxRainGrowReverse'];
 
 				currentEffect = anims[Math.floor(Math.random() * (anims.length - 1))];
 			}
@@ -538,7 +528,7 @@
 
 			var timedAnimate = function(element, css, speed, buff, end){
 				setTimeout(function(){
-					element.animate(css, (!speed) ? settings.animSpeed : speed, '', (end) ? function(){ el.slider.trigger('nivo:animFinished'); } : null);
+					element.animate(css, (speed || settings.animSpeed), '', (end && function(){ el.slider.trigger('nivo:animFinished'); }));
 				}, 100 + buff)
 			}
 
@@ -652,39 +642,110 @@
 
 				default:
 				case 'fade':
-					createSlices();
+					createSlices(1);
 
-					var firstSlice = $('.nivo-slice', el.slider).eq(0);
+					var slice = $('.nivo-slice', el.slider);
 
-					firstSlice
-						.css({ height: '100%', width: el.slider.width() +'px' })
+					slice
+						.css({ width: el.slider.width() +'px', height: '100%' })
 
 						.animate({ opacity: 1 }, (settings.animSpeed * 2), '', function(){
 							el.slider.trigger('nivo:animFinished');
 						});
 				break;
 
-				case 'slideIn':
+				case 'cycle':
+				case 'cycleLeft':
+				case 'cycleRight':
+					createSlices(1);
+
+					var	sliderWidth = el.slider.width(),
+						slice = $('.nivo-slice', el.slider),
+						cycleLeft = (currentEffect === 'cycleLeft' || (currentEffect === 'cycle' && (nudge === 'prev' ||  (nudge === 'control' && vars.currentSlideIndex < vars.previousSlideIndex)))) ? true : false,
+						css1, css2,
+						sliceHTML = document.createDocumentFragment();
+
+					css1 = {
+						position: 'absolute',
+						right: (cycleLeft) ? '0' : sliderWidth +'px',
+						background: 'url("'+ vars.previousImage.url +'")',
+						width: sliderWidth +'px',
+						height: '100%'
+					};
+					
+					css2 = {
+						position: 'absolute',
+						right: (cycleLeft) ? sliderWidth +'px' : '0',
+						backgroundImage: 'url("'+ vars.currentImage.url +'")',
+						width: sliderWidth +'px',
+						height: '100%'
+					};
+					
+					sliceHTML.appendChild($('<div></div>').css(css1)[0]);
+					sliceHTML.appendChild($('<div></div>').css(css2)[0]);
+					slice.html(sliceHTML);
+					
+					var css = {
+						left: (cycleLeft) ? -sliderWidth +'px' : '0',
+						width: (sliderWidth * 2) +'px',
+						height: '100%',
+						opacity: 1
+					};
+
+					slice
+						.css(css)
+
+						.animate({ left: ((cycleLeft) ? '0' : -sliderWidth +'px') }, (settings.animSpeed * 2), '', function(){
+							el.slider.trigger('nivo:animFinished');
+						});
+				break;
+
+				case 'slideInHorizontal':
 				case 'slideInLeft':
 				case 'slideInRight':
-					createSlices();
+					createSlices(1);
 
-					var	firstSlice = $('.nivo-slice', el.slider).eq(0),
-						slideInLeft = (currentEffect === 'slideInLeft' || (currentEffect === 'slideIn' && vars.currentSlideIndex < vars.previousSlideIndex)) ? true : false;
+					var	slice = $('.nivo-slice', el.slider),
+						slideInLeft = (currentEffect === 'slideInLeft' || (currentEffect === 'slideInHorizontal' && (nudge === 'prev' ||  (nudge === 'control' && vars.currentSlideIndex < vars.previousSlideIndex)))) ? true : false;
 
 					var	css = {
-						backgroundPosition: (slideInLeft) ? '100% 0' : '0 0',
 						left: (slideInLeft) ? '0' : '',
 						right: (slideInLeft) ? '' : '0',
+						backgroundPosition: (slideInLeft) ? '100% 0' : '0 0',
 						width: '0',
 						height: '100%',
 						opacity: 1
 					};
 
-					firstSlice
+					slice
 						.css(css)
 
-						.animate({ width: el.slider.width() }, (settings.animSpeed * 2), '', function(){
+						.animate({ width: '100%' }, (settings.animSpeed * 2), '', function(){
+							el.slider.trigger('nivo:animFinished');
+						});
+				break;
+				
+				case 'slideInVertical':
+				case 'slideInTop':
+				case 'slideInBottom':
+					createSlices(1);
+
+					var	slice = $('.nivo-slice', el.slider),
+						slideInTop = (currentEffect === 'slideInTop' || (currentEffect === 'slideInVertical' && (nudge === 'prev' ||  (nudge === 'control' && vars.currentSlideIndex > vars.previousSlideIndex)))) ? true : false;
+
+					var	css = {
+						top: (slideInTop) ? '0' : '',
+						bottom: (slideInTop) ? '' : '0',
+						backgroundPosition: (slideInTop) ? '0 100%' : '0 0',
+						width: '100%',
+						height: '0',
+						opacity: 1
+					};
+
+					slice
+						.css(css)
+
+						.animate({ height: '100%' }, (settings.animSpeed * 2), '', function(){
 							el.slider.trigger('nivo:animFinished');
 						});
 				break;
@@ -782,6 +843,9 @@
 					while(++cols < (settings.boxCols * 2));
 				break;
 			}
+			
+			// save current index as previous index
+			vars.previousSlideIndex = vars.currentSlideIndex;
 		}
 
 		// Shuffle an array
@@ -795,13 +859,13 @@
 			if(!el.slider.data('nivo:vars').stop){
 				el.slider.data('nivo:vars').stop = true;
 			}
-		}
+		};
 
 		this.start = function(){
 			if(el.slider.data('nivo:vars').stop){
 				el.slider.data('nivo:vars').stop = false;
 			}
-		}
+		};
 
 		//Trigger the afterLoad callback
 		settings.afterLoad.call(this);
