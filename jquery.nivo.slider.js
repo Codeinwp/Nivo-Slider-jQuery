@@ -85,7 +85,7 @@
 			if(settings.startSlide >= vars.totalSlides){
 				settings.startSlide = vars.totalSlides - 1;
 			}
-			
+
 			vars.previousSlideIndex = settings.startSlide - 1;
 			vars.currentSlideIndex = settings.startSlide;
 		}
@@ -155,7 +155,7 @@
 		if(vars.totalSlides < 2){
 			return false;
 		}
-		
+
 		var timer = null;
 
 		//In the words of Super Mario "let's a go!"
@@ -200,7 +200,6 @@
 						timer = null;
 
 						if (dir === 'prev'){
-							vars.previousSlideIndex -= 1;
 							vars.currentSlideIndex -= 2;
 						}
 						nivoRun(dir);
@@ -269,7 +268,7 @@
 		if(settings.keyboardNav){
 			$(document).keydown(function(e){
 				var code = e.keyCode || e.which;
-				
+
 				if(vars.running){
 					return false;
 				}
@@ -457,23 +456,18 @@
 			++vars.currentSlideIndex;
 
 			if(vars.currentSlideIndex >= vars.totalSlides){
-				vars.previousSlideIndex = vars.totalSlides - 1;
 				vars.currentSlideIndex = 0;
 
 				//Trigger the slideshowEnd callback
 				settings.slideshowEnd.call(this);
 			}
-			else if(vars.currentSlideIndex === 0){
-				vars.previousSlideIndex = vars.totalSlides - 1;
-			}
 			else if(vars.currentSlideIndex < 0){
 				vars.currentSlideIndex = vars.totalSlides - 1;
-				vars.previousSlideIndex = vars.totalSlides - 2;
 			}
 
 			// update previous slide element
 			el.previousSlide = el.currentSlide;
-			
+
 			// update current slide element
 			el.currentSlide = $(el.slides[vars.currentSlideIndex]);
 			el.currentSlide = (el.currentSlide.is('img')) ? el.currentSlide : el.currentSlide.find('img').eq(0);
@@ -507,7 +501,7 @@
 			//Generate random effect
 			if(settings.effect === 'random'){
 				var anims = ['sliceDownRight','sliceDownLeft','sliceUpRight','sliceUpLeft','sliceUpDown','sliceUpDownLeft','fold','fade',
-				'cycle', 'boxRandom','boxRain','boxRainReverse','boxRainGrow','boxRainGrowReverse'];
+				'cycle','boxRandom','boxRain','boxRainReverse','boxRainGrow','boxRainGrowReverse'];
 
 				currentEffect = anims[Math.floor(Math.random() * (anims.length - 1))];
 			}
@@ -672,7 +666,7 @@
 						width: sliderWidth +'px',
 						height: '100%'
 					};
-					
+
 					css2 = {
 						position: 'absolute',
 						right: (cycleLeft) ? sliderWidth +'px' : '0',
@@ -680,11 +674,11 @@
 						width: sliderWidth +'px',
 						height: '100%'
 					};
-					
+
 					sliceHTML.appendChild($('<div></div>').css(css1)[0]);
 					sliceHTML.appendChild($('<div></div>').css(css2)[0]);
 					slice.html(sliceHTML);
-					
+
 					var css = {
 						left: (cycleLeft) ? -sliderWidth +'px' : '0',
 						width: (sliderWidth * 2) +'px',
@@ -724,7 +718,7 @@
 							el.slider.trigger('nivo:animFinished');
 						});
 				break;
-				
+
 				case 'slideInVertical':
 				case 'slideInTop':
 				case 'slideInBottom':
@@ -843,7 +837,7 @@
 					while(++cols < (settings.boxCols * 2));
 				break;
 			}
-			
+
 			// save current index as previous index
 			vars.previousSlideIndex = vars.currentSlideIndex;
 		}
