@@ -11,7 +11,7 @@
 
 (function($){
 
- 	var NivoSlider = function(element, options)
+	var NivoSlider = function(element, options)
 	{
 		//Defaults are below
 		var settings = $.extend({}, $.fn.nivoSlider.defaults, options);
@@ -38,6 +38,7 @@
 
 		//Find our slider children
 		el.slides = el.slider.children();
+		el.linkSlides = el.slider.children('a') || false;
 
 		var	slide,
 			slidesIndex = el.slides.length,
@@ -48,9 +49,6 @@
 			slide = $(el.slides[slidesIndex]);
 
 			if(!slide.is('img')){
-				if(slide.is('a')){
-					slide.addClass('nivo-imageLink');
-				}
 				slide = slide.find('img').eq(0);
 			}
 
@@ -74,6 +72,11 @@
 			++vars.totalSlides;
 		}
 
+		// attach class to anchors
+		if(el.linkSlides){
+			el.linkSlides.addClass('nivo-imageLink');
+		}
+
 		//If randomStart
 		if(settings.randomStart){
 			settings.startSlide = Math.floor(Math.random() * vars.totalSlides);
@@ -94,18 +97,11 @@
 		el.currentSlide = $(el.slides[vars.currentSlideIndex]);
 
 		//Get initial image
-		if(el.currentSlide.is('img')){
-			vars.currentImage = {
-				url: el.currentSlide.attr('src'),
-				title: el.currentSlide.attr('title')
-			};
-		} else {
-			vars.currentImage = el.currentSlide.find('img').eq(0);
-			vars.currentImage = {
-				url: vars.currentImage.attr('src'),
-				title: vars.currentImage.attr('title')
-			};
-		}
+		vars.currentImage = (el.currentSlide.is('img')) ? el.currentSlide : el.currentSlide.find('img').eq(0);
+		vars.currentImage = {
+			url: vars.currentImage.attr('src'),
+			title: vars.currentImage.attr('title')
+		};
 
 		//Show initial link
 		if(el.currentSlide.is('a')){
@@ -312,18 +308,6 @@
 		el.slider.bind('nivo:animFinished', function(){
 			vars.running = false;
 
-			var	link,
-				i = el.slides.length;
-
-			//Hide child links
-			while(--i + 1){
-				link = $(el.slides[i]);
-
-				if(link.is('a')){
-					link.css('display','none');
-				}
-			}
-
 			//Show current link
 			if(el.currentSlide.is('a')){
 				el.currentSlide.css('display','block');
@@ -340,15 +324,14 @@
 
 		// Add slices for slice animations
 		var createSlices = function(slices){
-			var	sliderImg = vars.currentImage.url,
-				sliderWidth = el.slider.width(),
+			var	sliderWidth = el.slider.width(),
 				i = 0,
 				sliceLimit = slices || settings.slices,
 				slicesHTML = document.createDocumentFragment(),
 				sliceWidth,
 				offset;
 
-			var css = {
+			var	css = {
 				background: '',
 				left: '',
 				width: '',
@@ -361,7 +344,7 @@
 				offset = sliceWidth * i;
 
 				css.left = offset +'px';
-				css.background = 'url("'+ sliderImg +'") no-repeat -'+ ((sliceWidth + offset) - sliceWidth) +'px 0%';
+				css.background = 'url("'+ vars.currentImage.url +'") no-repeat -'+ ((sliceWidth + offset) - sliceWidth) +'px 0%';
 				css.width = sliceWidth +'px';
 
 				// fix up uneven spacing
@@ -470,22 +453,25 @@
 
 			// update current slide element
 			el.currentSlide = $(el.slides[vars.currentSlideIndex]);
-			el.currentSlide = (el.currentSlide.is('img')) ? el.currentSlide : el.currentSlide.find('img').eq(0);
 
 			//Set slide images
-			vars.previousImage = {
-				url: el.previousSlide.attr('src')
-			};
+			vars.previousImage = vars.currentImage;
 
+			vars.currentImage = (el.currentSlide.is('img')) ? el.currentSlide : el.currentSlide.find('img').eq(0);
 			vars.currentImage = {
-				url: el.currentSlide.attr('src'),
-				title: el.currentSlide.attr('title'),
-				transition: el.currentSlide.data('transition')
+				url: vars.currentImage.attr('src'),
+				title: vars.currentImage.attr('title'),
+				transition: vars.currentImage.data('transition')
 			};
 
 			//Set active links
 			if(settings.controlNav){
 				el.sliderControlNavLinks.removeClass('active').eq(vars.currentSlideIndex).addClass('active');
+			}
+
+			// hide links
+			if(el.linkSlides){
+				el.linkSlides.css('display','none');
 			}
 
 			//Process caption
@@ -663,14 +649,14 @@
 						position: 'absolute',
 						right: (cycleLeft) ? '0' : sliderWidth +'px',
 						background: 'url("'+ vars.previousImage.url +'")',
-						width: sliderWidth +'px',
-						height: '100%'
-					};
+ 						width: sliderWidth +'px',
+ 						height: '100%'
+ 					};
 
 					css2 = {
 						position: 'absolute',
 						right: (cycleLeft) ? sliderWidth +'px' : '0',
-						backgroundImage: 'url("'+ vars.currentImage.url +'")',
+						background: 'url("'+ vars.currentImage.url +'")',
 						width: sliderWidth +'px',
 						height: '100%'
 					};
