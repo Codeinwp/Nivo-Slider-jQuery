@@ -383,7 +383,8 @@
             if(vars.currentImage.attr('data-transition')){
             	currentEffect = vars.currentImage.attr('data-transition');
             }
-		
+            		//effect 'slideInLeftRight'
+			if(settings.effect=="slideInLeftRight"){if(nudge=="next"){vars.randAnim="slideInLeft"}else{vars.randAnim="slideInRight"}};
 			//Run effects
 			vars.running = true;
 			if(currentEffect == 'sliceDown' || currentEffect == 'sliceDownRight' || currentEffect == 'sliceDownLeft'){
