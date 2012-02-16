@@ -26,7 +26,12 @@
         };
     
         //Get this slider
+        if($(element).length == 0){
+        	/* Do nothing if the element doesnot exists in the page */
+        	return false;
+        }
         var slider = $(element);
+        
         slider.data('nivo:vars', vars);
         slider.css('position','relative');
         slider.addClass('nivoSlider');
