@@ -3,7 +3,7 @@ Skin Name: Nivo Slider Default Theme
 Skin URI: http://nivo.dev7studios.com
 Skin Type: flexible
 Description: The default skin for the Nivo Slider.
-Version: 1.0
+Version: 1.1
 Author: Gilbert Pellegrom
 Author URI: http://dev7studios.com
 */
@@ -72,4 +72,25 @@ Author URI: http://dev7studios.com
 }
 .theme-default .nivo-caption a:hover {
     color:#fff;
+}
+
+.theme-default.controlnav-thumbs {
+	margin-bottom: 100px; /* Tweak this depending on thumbnail size */
+}
+.theme-default.controlnav-thumbs .nivo-controlNav {
+	bottom: -70px; /* Tweak this depending on slider height */
+	left: 0;
+	margin-left: 0;
+	width: 100%;
+}
+.theme-default.controlnav-thumbs .nivo-controlNav a {
+	width: auto;
+	height: auto;
+	background: none;
+	text-indent: 0;
+	margin: 0 6px 6px 0;
+}
+.theme-default.controlnav-thumbs .nivo-controlNav img {
+	position: relative;
+	display: block;
 }
