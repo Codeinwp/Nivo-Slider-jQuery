@@ -304,7 +304,7 @@
                 });
             });
         }
-        
+
         // Add boxes for box animations
         var createBoxes = function(slider, settings, vars){
             var boxWidth = Math.round(slider.width()/settings.boxCols),
