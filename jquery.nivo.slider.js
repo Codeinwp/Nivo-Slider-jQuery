@@ -689,6 +689,6 @@
         afterLoad: function(){}
 	};
 	
-	$.fn._reverse = [].reverse;
+	$.fn._reverse = []._reverse;
 	
 })(jQuery);
