@@ -87,6 +87,7 @@
         
         //Set first background
         slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');
+	vars.currentImage.css("display","block");
 
         //Create caption
         slider.append(
@@ -342,11 +343,13 @@
 			}
 			if(vars.currentSlide < 0) vars.currentSlide = (vars.totalSlides - 1);
 			//Set vars.currentImage
+			vars.currentImage.fadeOut('fast');
 			if($(kids[vars.currentSlide]).is('img')){
 				vars.currentImage = $(kids[vars.currentSlide]);
 			} else {
 				vars.currentImage = $(kids[vars.currentSlide]).find('img:first');
 			}
+			vars.currentImage.fadeIn('fast');
 			
 			//Set active links
 			if(settings.controlNav){
