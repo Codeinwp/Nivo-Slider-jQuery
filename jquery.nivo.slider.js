@@ -123,7 +123,12 @@
         //In the words of Super Mario "let's a go!"
         var timer = 0;
         if(!settings.manualAdvance && kids.length > 1){
-            timer = setInterval(function(){ nivoRun(slider, kids, settings, false); }, settings.pauseTime);
+            var vars = slider.data('nivo:vars');
+            var pauseTime = settings.pauseTime; 
+            if(vars.currentImage.attr('data-pause')){
+                pauseTime = vars.currentImage.attr('data-pause'); 
+            }
+            timer = setTimeout(function(){ nivoRun(slider, kids, settings, false); }, pauseTime );
         }
 
         //Add Direction nav
@@ -142,7 +147,7 @@
             
             $('a.nivo-prevNav', slider).live('click', function(){
                 if(vars.running) return false;
-                clearInterval(timer);
+                clearTimeout(timer);
                 timer = '';
                 vars.currentSlide -= 2;
                 nivoRun(slider, kids, settings, 'prev');
@@ -150,7 +155,7 @@
             
             $('a.nivo-nextNav', slider).live('click', function(){
                 if(vars.running) return false;
-                clearInterval(timer);
+                clearTimeout(timer);
                 timer = '';
                 nivoRun(slider, kids, settings, 'next');
             });
@@ -182,7 +187,7 @@
             $('.nivo-controlNav a', slider).live('click', function(){
                 if(vars.running) return false;
                 if($(this).hasClass('active')) return false;
-                clearInterval(timer);
+                clearTimeout(timer);
                 timer = '';
                 slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');
                 vars.currentSlide = $(this).attr('rel') - 1;
@@ -196,7 +201,7 @@
                 //Left
                 if(event.keyCode == '37'){
                     if(vars.running) return false;
-                    clearInterval(timer);
+                    clearTimeout(timer);
                     timer = '';
                     vars.currentSlide-=2;
                     nivoRun(slider, kids, settings, 'prev');
@@ -204,7 +209,7 @@
                 //Right
                 if(event.keyCode == '39'){
                     if(vars.running) return false;
-                    clearInterval(timer);
+                    clearTimeout(timer);
                     timer = '';
                     nivoRun(slider, kids, settings, 'next');
                 }
@@ -215,13 +220,13 @@
         if(settings.pauseOnHover){
             slider.hover(function(){
                 vars.paused = true;
-                clearInterval(timer);
+                clearTimeout(timer);
                 timer = '';
             }, function(){
                 vars.paused = false;
                 //Restart the timer
                 if(timer == '' && !settings.manualAdvance){
-                    timer = setInterval(function(){ nivoRun(slider, kids, settings, false); }, settings.pauseTime);
+                    timer = setTimeout(function(){ nivoRun(slider, kids, settings, false); }, settings.pauseTime);
                 }
             });
         }
@@ -241,7 +246,7 @@
             }
             //Restart the timer
             if(timer == '' && !vars.paused && !settings.manualAdvance){
-                timer = setInterval(function(){ nivoRun(slider, kids, settings, false); }, settings.pauseTime);
+                timer = setTimeout(function(){ nivoRun(slider, kids, settings, false); }, settings.pauseTime);
             }
             //Trigger the afterChange callback
             settings.afterChange.call(this);
@@ -381,7 +386,13 @@
             
             //Custom transition as defined by "data-transition" attribute
             if(vars.currentImage.attr('data-transition')){
-            	currentEffect = vars.currentImage.attr('data-transition');
+                currentEffect = vars.currentImage.attr('data-transition');
+            }
+
+            //Custom pauseTime as defined by "data-pause" attribute
+            var pauseTime = settings.pauseTime;
+            if(vars.currentImage.attr('data-pause')){
+            	pauseTime = vars.currentImage.attr('data-pause');
             }
 		
 			//Run effects
@@ -610,6 +621,9 @@
 					timeBuff += 100;
 				}
 			}
+            if(!settings.manualAdvance && kids.length > 1){
+                timer = setTimeout(function(){ nivoRun(slider, kids, settings, false); }, pauseTime);
+            }
 		}
 		
 		// Shuffle an array
