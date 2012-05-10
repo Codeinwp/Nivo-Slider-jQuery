@@ -28,20 +28,17 @@ Author URI: http://dev7studios.com
 }
 
 .theme-default .nivo-controlNav {
-	position:absolute;
-	left:50%;
-	bottom:-42px;
-    margin-left:-40px; /* Tweak this to center bullets */
+	text-align: center;
+	padding: 15px 0;
 }
 .theme-default .nivo-controlNav a {
-	display:block;
+	display:inline-block;
 	width:22px;
 	height:22px;
 	background:url(bullets.png) no-repeat;
 	text-indent:-9999px;
 	border:0;
-	margin-right:3px;
-	float:left;
+	margin: 0 2px;
 }
 .theme-default .nivo-controlNav a.active {
 	background-position:0 -22px;
@@ -74,23 +71,17 @@ Author URI: http://dev7studios.com
     color:#fff;
 }
 
-.theme-default.controlnav-thumbs {
-	margin-bottom: 100px; /* Tweak this depending on thumbnail size */
-}
-.theme-default.controlnav-thumbs .nivo-controlNav {
-	bottom: -70px; /* Tweak this depending on slider height */
-	left: 0;
-	margin-left: 0;
+.theme-default .nivo-controlNav.nivo-thumbs-enabled {
 	width: 100%;
 }
-.theme-default.controlnav-thumbs .nivo-controlNav a {
+.theme-default .nivo-controlNav.nivo-thumbs-enabled a {
 	width: auto;
 	height: auto;
 	background: none;
-	text-indent: 0;
-	margin: 0 6px 6px 0;
+	margin-bottom: 5px;
 }
-.theme-default.controlnav-thumbs .nivo-controlNav img {
-	position: relative;
+.theme-default .nivo-controlNav.nivo-thumbs-enabled img {
 	display: block;
+	width: 120px;
+	height: auto;
 }

@@ -22,7 +22,8 @@
             totalSlides: 0,
             running: false,
             paused: false,
-            stop: false
+            stop: false,
+            controlNavEl: false
         };
     
         //Get this slider
@@ -158,28 +159,25 @@
         
         //Add Control nav
         if(settings.controlNav){
-            var nivoControl = $('<div class="nivo-controlNav"></div>');
-            slider.append(nivoControl);
+            vars.controlNavEl = $('<div class="nivo-controlNav"></div>');
+            slider.after(vars.controlNavEl);
             for(var i = 0; i < kids.length; i++){
                 if(settings.controlNavThumbs){
+                    vars.controlNavEl.addClass('nivo-thumbs-enabled');
                     var child = kids.eq(i);
                     if(!child.is('img')){
                         child = child.find('img:first');
                     }
-                    if (settings.controlNavThumbsFromRel) {
-                        nivoControl.append('<a class="nivo-control" rel="'+ i +'"><img src="'+ child.attr('rel') + '" alt="" /></a>');
-                    } else {
-                        nivoControl.append('<a class="nivo-control" rel="'+ i +'"><img src="'+ child.attr('src').replace(settings.controlNavThumbsSearch, settings.controlNavThumbsReplace) +'" alt="" /></a>');
-                    }
+                    if(child.attr('data-thumb')) vars.controlNavEl.append('<a class="nivo-control" rel="'+ i +'"><img src="'+ child.attr('data-thumb') +'" alt="" /></a>');
                 } else {
-                    nivoControl.append('<a class="nivo-control" rel="'+ i +'">'+ (i + 1) +'</a>');
+                    vars.controlNavEl.append('<a class="nivo-control" rel="'+ i +'">'+ (i + 1) +'</a>');
                 }
-                
             }
+
             //Set initial active link
-            $('.nivo-controlNav a:eq('+ vars.currentSlide +')', slider).addClass('active');
+            $('a:eq('+ vars.currentSlide +')', vars.controlNavEl).addClass('active');
             
-            $('.nivo-controlNav a', slider).live('click', function(){
+            $('a', vars.controlNavEl).bind('click', function(){
                 if(vars.running) return false;
                 if($(this).hasClass('active')) return false;
                 clearInterval(timer);
@@ -187,27 +185,6 @@
                 slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');
                 vars.currentSlide = $(this).attr('rel') - 1;
                 nivoRun(slider, kids, settings, 'control');
-            });
-        }
-        
-        //Keyboard Navigation
-        if(settings.keyboardNav){
-            $(window).keypress(function(event){
-                //Left
-                if(event.keyCode == '37'){
-                    if(vars.running) return false;
-                    clearInterval(timer);
-                    timer = '';
-                    vars.currentSlide-=2;
-                    nivoRun(slider, kids, settings, 'prev');
-                }
-                //Right
-                if(event.keyCode == '39'){
-                    if(vars.running) return false;
-                    clearInterval(timer);
-                    timer = '';
-                    nivoRun(slider, kids, settings, 'next');
-                }
             });
         }
         
@@ -350,8 +327,8 @@
 			
 			//Set active links
 			if(settings.controlNav){
-				$('.nivo-controlNav a', slider).removeClass('active');
-				$('.nivo-controlNav a:eq('+ vars.currentSlide +')', slider).addClass('active');
+				$('a', vars.controlNavEl).removeClass('active');
+				$('a:eq('+ vars.currentSlide +')', vars.controlNavEl).addClass('active');
 			}
 			
 			//Process caption
@@ -672,10 +649,6 @@
 		directionNavHide: true,
 		controlNav: true,
 		controlNavThumbs: false,
-        controlNavThumbsFromRel: false,
-		controlNavThumbsSearch: '.jpg',
-		controlNavThumbsReplace: '_thumb.jpg',
-		keyboardNav: true,
 		pauseOnHover: true,
 		manualAdvance: false,
 		captionOpacity: 0.8,

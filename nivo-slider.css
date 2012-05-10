@@ -79,9 +79,11 @@
 	right:0px;
 }
 /* Control nav styles (e.g. 1,2,3...) */
+.nivo-controlNav {
+	text-align:center;
+	padding: 15px 0;
+}
 .nivo-controlNav a {
-	position:relative;
-	z-index:9;
 	cursor:pointer;
 }
 .nivo-controlNav a.active {
