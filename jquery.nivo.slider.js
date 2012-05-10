@@ -90,12 +90,7 @@
         slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');
 
         //Create caption
-        slider.append(
-            $('<div class="nivo-caption"><p></p></div>').css({ display:'none', opacity:settings.captionOpacity })
-        );		
-        
-        // Cross browser default caption opacity
-        $('.nivo-caption', slider).css('opacity', 0);
+        slider.append($('<div class="nivo-caption"></div>'));
 		
 		// Process caption function
 		var processCaption = function(settings){
@@ -104,17 +99,16 @@
 				var title = vars.currentImage.attr('title');
 				if(title.substr(0,1) == '#') title = $(title).html();	
 
-				if(nivoCaption.css('opacity') != 0){
-					nivoCaption.find('p').stop().fadeTo(settings.animSpeed, 0, function(){
-						$(this).html(title);
-						$(this).stop().fadeTo(settings.animSpeed, 1);
-					});
+				if(nivoCaption.css('display') == 'block'){
+					setTimeout(function(){
+                        nivoCaption.html(title);
+                    }, settings.animSpeed);
 				} else {
-					nivoCaption.find('p').html(title);
-				}					
-				nivoCaption.stop().fadeTo(settings.animSpeed, settings.captionOpacity);
+					nivoCaption.html(title);
+                    nivoCaption.stop().fadeIn(settings.animSpeed);
+				}
 			} else {
-				nivoCaption.stop().fadeTo(settings.animSpeed, 0);
+				nivoCaption.stop().fadeOut(settings.animSpeed);
 			}
 		}
 		
@@ -651,7 +645,6 @@
 		controlNavThumbs: false,
 		pauseOnHover: true,
 		manualAdvance: false,
-		captionOpacity: 0.8,
 		prevText: 'Prev',
 		nextText: 'Next',
 		randomStart: false,
