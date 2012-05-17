@@ -84,7 +84,7 @@ a:hover, a:active {
 
 .theme-default #slider {
     margin:100px auto 0 auto;
-    width:618px; /* Make sure your images are the same size */
+/*    width:618px; /* Make sure your images are the same size *!/*/
     //height:246px; /* Make sure your images are the same size */
 }
 .theme-pascal.slider-wrapper,
