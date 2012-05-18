@@ -14,11 +14,17 @@
 .nivoSlider {
 	position:relative;
 }
+.slider-wrapper {
+	width:80%;
+	margin: auto;
+}
 .nivoSlider img {
 	position:absolute;
 	top:0px;
 	left:0px;
 }
+#mainImg {position:relative; display:block;}
+
 /* If an image is wrapped in a link */
 .nivoSlider a.nivo-imageLink {
 	position:absolute;
@@ -38,12 +44,16 @@
 	position:absolute;
 	z-index:5;
 	height:100%;
+	top:0;
 }
 .nivo-box {
 	display:block;
 	position:absolute;
 	z-index:5;
+	overflow:hidden;
 }
+.nivo-box img {display:block;}
+
 /* Caption styles */
 .nivo-caption {
 	position:absolute;
