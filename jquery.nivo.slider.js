@@ -88,6 +88,7 @@
         
         // Detect Window Resize
         $(window).resize(function() {
+            slider.children('img').width(slider.width());
             sliderImg.height('auto');
             $('.nivo-slice').remove();
             $('.nivo-box').remove();
@@ -263,8 +264,8 @@
         
         // Add slices for slice animations
         var createSlices = function(slider, settings, vars) {
-            $('img[src="'+vars.currentImage.attr('src')+'"]').not('#mainImg').width('100%').css({'visibility' : 'hidden', 'display' : 'block'}).show();
-            var sliceHeight = $('img[src="'+vars.currentImage.attr('src')+'"]').not('#mainImg').parent().height();
+            $('img[src="'+vars.currentImage.attr('src')+'"]').not('#mainImg').width(slider.width()).css({'visibility' : 'hidden'}).show();
+            var sliceHeight = ($('img[src="'+vars.currentImage.attr('src')+'"]').not('#mainImg').parent().is('a')) ? $('img[src="'+vars.currentImage.attr('src')+'"]').not('#mainImg').parent().height() : $('img[src="'+vars.currentImage.attr('src')+'"]').not('#mainImg').height();
 
             for(var i = 0; i < settings.slices; i++){
                 var sliceWidth = Math.round(slider.width()/settings.slices);
@@ -300,7 +301,7 @@
         
         // Add boxes for box animations
         var createBoxes = function(slider, settings, vars){
-            $('img[src="'+vars.currentImage.attr('src')+'"]').not('#mainImg').width('100%').css('visibility', 'hidden').show();
+            $('img[src="'+vars.currentImage.attr('src')+'"]').not('#mainImg').width(slider.width()).css('visibility', 'hidden').show();
             var boxWidth = Math.round(slider.width()/settings.boxCols),
                 boxHeight = Math.round($('img[src="'+vars.currentImage.attr('src')+'"]').not('#mainImg').height() / settings.boxRows);
             
