@@ -1,10 +1,10 @@
 /*
  * jQuery Nivo Slider v3.0
- * http:// nivo.dev7studios.com
+ * http://nivo.dev7studios.com
  *
- * Copyright 2011, Gilbert Pellegrom
+ * Copyright 2012, Dev7studios
  * Free to use and abuse under the MIT license.
- * http:// www.opensource.org/licenses/mit-license.php
+ * http://www.opensource.org/licenses/mit-license.php
  */
 
 (function($) {
