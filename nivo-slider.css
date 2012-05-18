@@ -1,31 +1,28 @@
 /*
- * jQuery Nivo Slider v2.7.1
+ * jQuery Nivo Slider v3.0
  * http://nivo.dev7studios.com
  *
  * Copyright 2011, Gilbert Pellegrom
  * Free to use and abuse under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
- * 
- * March 2010
  */
  
  
 /* The Nivo Slider styles */
 .nivoSlider {
 	position:relative;
-}
-.slider-wrapper {
-	width:80%;
-	margin: auto;
+	width:100%;
+	height:auto;
+	overflow: hidden;
 }
 .nivoSlider img {
 	position:absolute;
 	top:0px;
 	left:0px;
 }
-.nivo-first-image {
-	display: block;
-	position: relative; 
+.nivo-main-image {
+	display: block !important;
+	position: relative !important; 
 }
 
 /* If an image is wrapped in a link */
