@@ -75,40 +75,41 @@
         
         // Set first background
         var sliderImg = $('<img class="nivo-main-image" src="#" />');
-        sliderImg.css('width', '100%').attr('src', vars.currentImage.attr('src')).show();
+        sliderImg.attr('src', vars.currentImage.attr('src')).show();
         slider.append(sliderImg);
 
         // Detect Window Resize
         $(window).resize(function() {
             slider.children('img').width(slider.width());
-            sliderImg.height('auto');
+            sliderImg.attr('src', vars.currentImage.attr('src'));
+            sliderImg.stop().height('auto');
             $('.nivo-slice').remove();
             $('.nivo-box').remove();
         });
 
         //Create caption
         slider.append($('<div class="nivo-caption"></div>'));
-		
-		// Process caption function
-		var processCaption = function(settings){
-			var nivoCaption = $('.nivo-caption', slider);
-			if(vars.currentImage.attr('title') != '' && vars.currentImage.attr('title') != undefined){
-				var title = vars.currentImage.attr('title');
-				if(title.substr(0,1) == '#') title = $(title).html();	
+        
+        // Process caption function
+        var processCaption = function(settings){
+            var nivoCaption = $('.nivo-caption', slider);
+            if(vars.currentImage.attr('title') != '' && vars.currentImage.attr('title') != undefined){
+                var title = vars.currentImage.attr('title');
+                if(title.substr(0,1) == '#') title = $(title).html();   
 
-				if(nivoCaption.css('display') == 'block'){
-					setTimeout(function(){
+                if(nivoCaption.css('display') == 'block'){
+                    setTimeout(function(){
                         nivoCaption.html(title);
                     }, settings.animSpeed);
-				} else {
-					nivoCaption.html(title);
+                } else {
+                    nivoCaption.html(title);
                     nivoCaption.stop().fadeIn(settings.animSpeed);
-				}
-			} else {
-				nivoCaption.stop().fadeOut(settings.animSpeed);
-			}
-		}
-		
+                }
+            } else {
+                nivoCaption.stop().fadeOut(settings.animSpeed);
+            }
+        }
+        
         //Process initial  caption
         processCaption(settings);
         
@@ -293,7 +294,7 @@
         };
 
         // Private run method
-        var nivoRun = function(slider, kids, settings, nudge){			
+        var nivoRun = function(slider, kids, settings, nudge){          
             // Get our vars
             var vars = slider.data('nivo:vars');
             
@@ -303,7 +304,7 @@
             }
             
             // Stop
-			if((!vars || vars.stop) && !nudge) { return false; }
+            if((!vars || vars.stop) && !nudge) { return false; }
             
             // Trigger the beforeChange callback
             settings.beforeChange.call(this);
@@ -638,31 +639,33 @@
             // Store plugin object in this element's data
             element.data('nivoslider', nivoslider);
         });
-	};
-	
-	//Default settings
-	$.fn.nivoSlider.defaults = {
-		effect: 'random',
-		slices: 15,
-		boxCols: 8,
-		boxRows: 4,
-		animSpeed: 500,
-		pauseTime: 3000,
-		startSlide: 0,
-		directionNav: true,
-		directionNavHide: true,
-		controlNav: true,
-		controlNavThumbs: false,
-		pauseOnHover: true,
-		manualAdvance: false,
-		prevText: 'Prev',
-		nextText: 'Next',
-		randomStart: false,
-		beforeChange: function(){},
-		afterChange: function(){},
-		slideshowEnd: function(){},
+    };
+    
+    //Default settings
+    $.fn.nivoSlider.defaults = {
+        effect: 'random',
+        slices: 15,
+        boxCols: 8,
+        boxRows: 4,
+        animSpeed: 500,
+        pauseTime: 3000,
+        startSlide: 0,
+        directionNav: true,
+        directionNavHide: true,
+        controlNav: true,
+        controlNavThumbs: false,
+        pauseOnHover: true,
+        manualAdvance: false,
+        prevText: 'Prev',
+        nextText: 'Next',
+        randomStart: false,
+        beforeChange: function(){},
+        afterChange: function(){},
+        slideshowEnd: function(){},
         lastSlide: function(){},
         afterLoad: function(){}
     };
+
     $.fn._reverse = [].reverse;
+    
 })(jQuery);

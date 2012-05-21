@@ -22,6 +22,7 @@
 .nivo-main-image {
 	display: block !important;
 	position: relative !important; 
+	width: 100% !important;
 }
 
 /* If an image is wrapped in a link */
