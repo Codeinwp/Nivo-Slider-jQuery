@@ -25,6 +25,12 @@ Author URI: http://dev7studios.com
 .theme-default .nivoSlider a {
 	border:0;
 	display:block;
+	background-color: #fff;
+	filter:alpha(opacity=0);
+	opacity: 0;
+	-webkit-opacity:0;
+	-moz-opacity:0;
+	-khtml-opacity:0;
 }
 
 .theme-default .nivo-controlNav {
