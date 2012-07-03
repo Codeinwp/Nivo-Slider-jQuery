@@ -74,8 +74,10 @@
         }
         
         // Set first background
-        var sliderImg = $('<img class="nivo-main-image" src="#" />');
-        sliderImg.attr('src', vars.currentImage.attr('src')).show();
+        var imgUrl = vars.currentImage.attr('src').trim();
+        if(imgUrl == null || imgUrl === '') imgUrl = '#';
+        var sliderImg = $('<img class="nivo-main-image" src="' + imgUrl + '" />');
+        sliderImg.show();
         slider.append(sliderImg);
 
         // Detect Window Resize
