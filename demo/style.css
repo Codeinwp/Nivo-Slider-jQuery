@@ -84,15 +84,7 @@ a:hover, a:active {
 
 .slider-wrapper { 
 	width: 80%; 
-	margin: 20px auto;
-}
-
-.theme-default #slider {
-    margin:100px auto 0 auto;
-}
-.theme-pascal.slider-wrapper,
-.theme-orman.slider-wrapper {
-    margin-top:150px;
+	margin: 100px auto;
 }
 
 /*====================*/

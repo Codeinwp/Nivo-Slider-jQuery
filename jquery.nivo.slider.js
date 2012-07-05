@@ -1,5 +1,5 @@
 /*
- * jQuery Nivo Slider v3.0.1
+ * jQuery Nivo Slider v3.1
  * http://nivo.dev7studios.com
  *
  * Copyright 2012, Dev7studios
@@ -122,16 +122,6 @@
         // Add Direction nav
         if(settings.directionNav){
             slider.append('<div class="nivo-directionNav"><a class="nivo-prevNav">'+ settings.prevText +'</a><a class="nivo-nextNav">'+ settings.nextText +'</a></div>');
-            
-            // Hide Direction nav
-            if(settings.directionNavHide){
-                $('.nivo-directionNav', slider).hide();
-                slider.hover(function(){
-                    $('.nivo-directionNav', slider).show();
-                }, function(){
-                    $('.nivo-directionNav', slider).hide();
-                });
-            }
             
             $('a.nivo-prevNav', slider).live('click', function(){
                 if(vars.running) { return false; }
@@ -653,7 +643,6 @@
         pauseTime: 3000,
         startSlide: 0,
         directionNav: true,
-        directionNavHide: true,
         controlNav: true,
         controlNavThumbs: false,
         pauseOnHover: true,
