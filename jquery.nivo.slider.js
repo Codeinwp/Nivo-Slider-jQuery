@@ -74,7 +74,7 @@
         }
         
         // Set first background
-        var sliderImg = $('<img class="nivo-main-image" src="#" />');
+        var sliderImg = $('<img/>').addClass('nivo-main-image');
         sliderImg.attr('src', vars.currentImage.attr('src')).show();
         slider.append(sliderImg);
 
