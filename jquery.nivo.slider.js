@@ -478,7 +478,7 @@
                 });
     
                 firstSlice.animate({ opacity:'1.0' }, (settings.animSpeed*2), '', function(){ slider.trigger('nivo:animFinished'); });
-            } else if(currentEffect === 'slideInRight'){
+            } else if(currentEffect === 'slideInRight' || (currentEffect === 'slideLeftRight' && nudge === 'next')){
                 createSlices(slider, settings, vars);
                 
                 firstSlice = $('.nivo-slice:first', slider);
@@ -488,7 +488,7 @@
                 });
 
                 firstSlice.animate({ width: slider.width() + 'px' }, (settings.animSpeed*2), '', function(){ slider.trigger('nivo:animFinished'); });
-            } else if(currentEffect === 'slideInLeft'){
+            } else if(currentEffect === 'slideInLeft' || (currentEffect === 'slideLeftRight' && nudge === 'prev')){
                 createSlices(slider, settings, vars);
                 
                 firstSlice = $('.nivo-slice:first', slider);
