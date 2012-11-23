@@ -56,7 +56,7 @@
             vars.totalSlides++;
         });
         
-    	// START ADDED
+		// START ADDED
 		// Parse image source from an element.
         // Checks in data-src, then in src
         var parse_src = function(elem) {
