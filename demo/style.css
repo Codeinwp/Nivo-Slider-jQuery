@@ -82,14 +82,9 @@ a:hover, a:active {
     text-indent:-9999px;
 }
 
-.theme-default #slider {
-    margin:100px auto 0 auto;
-    width:618px; /* Make sure your images are the same size */
-    height:246px; /* Make sure your images are the same size */
-}
-.theme-pascal.slider-wrapper,
-.theme-orman.slider-wrapper {
-    margin-top:150px;
+.slider-wrapper { 
+	width: 80%; 
+	margin: 100px auto;
 }
 
 /*====================*/
