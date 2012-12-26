@@ -1,0 +1,13 @@
+{
+  "name": "nivo-slider",
+  "version": "3.1.0",
+  "main": "./jquery.nivo.slider.pack.js",
+  "dependencies": {
+  	"jquery": "~1.4"
+  },
+  "description": "Nivo Slider is 'The Most Awesome jQuery Image Slider'",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gilbitron/Nivo-Slider.git"
+  }
+}
