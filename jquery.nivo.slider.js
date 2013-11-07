@@ -7,6 +7,8 @@
  * http://www.opensource.org/licenses/mit-license.php
  */
 
+/* Edited by Fabio Borella */
+
 (function($) {
     var NivoSlider = function(element, options){
         // Defaults are below
@@ -29,29 +31,50 @@
 		
 		// Add listeners
 		
-		slider.on('slideto.nivoslider', function(e, index) {
+		slider.on('slideto.nivoslider', function(e, index, animSpeed) {
 			if(vars.running) return false;
 			if($(this).hasClass('active')) return false;
 			clearInterval(timer);
             timer = '';
             sliderImg.attr('src', vars.currentImage.attr('src'));
             vars.currentSlide = index - 1;
+            if (!isNaN(animSpeed)) {
+            	originalSpeed = settings.animSpeed;
+            	settings.animSpeed = animSpeed;
+            }
             nivoRun(slider, kids, settings, 'control');
+            if (!isNaN(animSpeed)) {
+	            settings.animSpeed = originalSpeed;
+            }
 		});
 		
-		slider.on('slideprev.nivoslider', function(e) {
+		slider.on('slideprev.nivoslider', function(e, animSpeed) {
 			if(vars.running) { return false; }
 			clearInterval(timer);
             timer = '';
             vars.currentSlide -= 2;
+            if (!isNaN(animSpeed)) {
+            	originalSpeed = settings.animSpeed;
+            	settings.animSpeed = animSpeed;
+            }
             nivoRun(slider, kids, settings, 'prev');
+            if (!isNaN(animSpeed)) {
+	            settings.animSpeed = originalSpeed;
+            }
 		});
 		
-		slider.on('slidenext.nivoslider', function(e) {
+		slider.on('slidenext.nivoslider', function(e, animSpeed) {
 			if(vars.running) { return false; }
 			clearInterval(timer);
 			timer = '';
+			if (!isNaN(animSpeed)) {
+            	originalSpeed = settings.animSpeed;
+            	settings.animSpeed = animSpeed;
+            }
 			nivoRun(slider, kids, settings, 'next');
+			if (!isNaN(animSpeed)) {
+	            settings.animSpeed = originalSpeed;
+            }
 		});
 		
         // Find our slider children
@@ -629,17 +652,17 @@
             }
         };
         
-        this.slideTo = function(index){
-        	$(element).trigger('slideto.nivoslider', [ index ]);
+        this.slideTo = function(index, animSpeed){
+        	$(element).trigger('slideto.nivoslider', [ index, animSpeed ]);
         };
         
-        this.slidePrev = function() {
-	        $(element).trigger('slideprev.nivoslider');
-        }
+        this.slidePrev = function(animSpeed) {
+	        $(element).trigger('slideprev.nivoslider', [ animSpeed ]);
+        };
         
-        this.slideNext = function() {
-	        $(element).trigger('slidenext.nivoslider');
-        }
+        this.slideNext = function(animSpeed) {
+	        $(element).trigger('slidenext.nivoslider', [ animSpeed ]);
+        };
         
         // Trigger the afterLoad callback
         settings.afterLoad.call(this);
