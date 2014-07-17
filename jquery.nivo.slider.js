@@ -151,6 +151,7 @@
                         child = child.find('img:first');
                     }
                     if(child.attr('data-thumb')) vars.controlNavEl.append('<a class="nivo-control" rel="'+ i +'"><img src="'+ child.attr('data-thumb') +'" alt="" /></a>');
+                    else if(child.attr('data-label')) vars.controlNavEl.append('<a class="nivo-control" rel="'+ i +'">'+ child.data('label') +'</a>');
                 } else {
                     vars.controlNavEl.append('<a class="nivo-control" rel="'+ i +'">'+ (i + 1) +'</a>');
                 }
