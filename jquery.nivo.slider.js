@@ -28,7 +28,7 @@
         slider.data('nivo:vars', vars).addClass('nivoSlider');
 
         // Find our slider children
-        var kids = slider.children();
+        var kids = slider.children(settings.slideSelector);
         kids.each(function() {
             var child = $(this);
             var link = '';
@@ -650,6 +650,7 @@
         prevText: 'Prev',
         nextText: 'Next',
         randomStart: false,
+        slideSelector: '',
         beforeChange: function(){},
         afterChange: function(){},
         slideshowEnd: function(){},
