@@ -87,12 +87,12 @@
             $('.nivo-box').remove();
         });
 
-        //Create caption
-        slider.append($('<div class="nivo-caption"></div>'));
+        // Create caption
+        slider.append($('<div class="nivo-caption"><div class="backdrop"></div><div class="nivo-caption-text"></div></div>'));
         
         // Process caption function
         var processCaption = function(settings){
-            var nivoCaption = $('.nivo-caption', slider);
+            var nivoCaption = $('.nivo-caption-text', slider);
             if(vars.currentImage.attr('title') != '' && vars.currentImage.attr('title') != undefined){
                 var title = vars.currentImage.attr('title');
                 if(title.substr(0,1) == '#') title = $(title).html();   
