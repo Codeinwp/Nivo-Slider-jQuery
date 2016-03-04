@@ -1,0 +1,16 @@
+{
+  "name": "nivo-slider",
+  "version": "3.2.0",
+  "description": "The Most Awesome jQuery Image Slider.",
+  "keywords": [
+    "nivo",
+    "image",
+    "slider"
+  ],
+  "author": "Gilbert Pellegrom",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gilbitron/Nivo-Slider.git"
+  }
+}
