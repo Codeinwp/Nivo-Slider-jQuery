@@ -7,6 +7,8 @@
  * http://www.opensource.org/licenses/mit-license.php
  */
 
+/* Edited by Fabio Borella */
+
 (function($) {
     var NivoSlider = function(element, options){
         // Defaults are below
@@ -26,7 +28,55 @@
         // Get this slider
         var slider = $(element);
         slider.data('nivo:vars', vars).addClass('nivoSlider');
-
+		
+		// Add listeners
+		
+		slider.on('slideto.nivoslider', function(e, index, animSpeed) {
+			if(vars.running) return false;
+			if($(this).hasClass('active')) return false;
+			clearInterval(timer);
+            timer = '';
+            sliderImg.attr('src', vars.currentImage.attr('src'));
+            vars.currentSlide = index - 1;
+            if (!isNaN(animSpeed)) {
+            	originalSpeed = settings.animSpeed;
+            	settings.animSpeed = animSpeed;
+            }
+            nivoRun(slider, kids, settings, 'control');
+            if (!isNaN(animSpeed)) {
+	            settings.animSpeed = originalSpeed;
+            }
+		});
+		
+		slider.on('slideprev.nivoslider', function(e, animSpeed) {
+			if(vars.running) { return false; }
+			clearInterval(timer);
+            timer = '';
+            vars.currentSlide -= 2;
+            if (!isNaN(animSpeed)) {
+            	originalSpeed = settings.animSpeed;
+            	settings.animSpeed = animSpeed;
+            }
+            nivoRun(slider, kids, settings, 'prev');
+            if (!isNaN(animSpeed)) {
+	            settings.animSpeed = originalSpeed;
+            }
+		});
+		
+		slider.on('slidenext.nivoslider', function(e, animSpeed) {
+			if(vars.running) { return false; }
+			clearInterval(timer);
+			timer = '';
+			if (!isNaN(animSpeed)) {
+            	originalSpeed = settings.animSpeed;
+            	settings.animSpeed = animSpeed;
+            }
+			nivoRun(slider, kids, settings, 'next');
+			if (!isNaN(animSpeed)) {
+	            settings.animSpeed = originalSpeed;
+            }
+		});
+		
         // Find our slider children
         var kids = slider.children();
         kids.each(function() {
@@ -124,18 +174,11 @@
             slider.append('<div class="nivo-directionNav"><a class="nivo-prevNav">'+ settings.prevText +'</a><a class="nivo-nextNav">'+ settings.nextText +'</a></div>');
             
             $(slider).on('click', 'a.nivo-prevNav', function(){
-                if(vars.running) { return false; }
-                clearInterval(timer);
-                timer = '';
-                vars.currentSlide -= 2;
-                nivoRun(slider, kids, settings, 'prev');
+                slider.trigger('slideprev.nivoslider');
             });
             
             $(slider).on('click', 'a.nivo-nextNav', function(){
-                if(vars.running) { return false; }
-                clearInterval(timer);
-                timer = '';
-                nivoRun(slider, kids, settings, 'next');
+                slider.trigger('slidenext.nivoslider');
             });
         }
         
@@ -160,13 +203,7 @@
             $('a:eq('+ vars.currentSlide +')', vars.controlNavEl).addClass('active');
             
             $('a', vars.controlNavEl).bind('click', function(){
-                if(vars.running) return false;
-                if($(this).hasClass('active')) return false;
-                clearInterval(timer);
-                timer = '';
-                sliderImg.attr('src', vars.currentImage.attr('src'));
-                vars.currentSlide = $(this).attr('rel') - 1;
-                nivoRun(slider, kids, settings, 'control');
+                slider.trigger('slideto.nivoslider', [ $(this).attr('rel') ]);
             });
         }
         
@@ -613,6 +650,18 @@
                 $(element).data('nivo:vars').stop = false;
                 trace('Start Slider');
             }
+        };
+        
+        this.slideTo = function(index, animSpeed){
+        	$(element).trigger('slideto.nivoslider', [ index, animSpeed ]);
+        };
+        
+        this.slidePrev = function(animSpeed) {
+	        $(element).trigger('slideprev.nivoslider', [ animSpeed ]);
+        };
+        
+        this.slideNext = function(animSpeed) {
+	        $(element).trigger('slidenext.nivoslider', [ animSpeed ]);
         };
         
         // Trigger the afterLoad callback
