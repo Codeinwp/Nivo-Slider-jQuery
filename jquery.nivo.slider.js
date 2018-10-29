@@ -75,13 +75,19 @@
         
         // Set first background
         var sliderImg = $('<img/>').addClass('nivo-main-image');
-        sliderImg.attr('src', vars.currentImage.attr('src')).show();
+        sliderImg.prop({
+            'src': vars.currentImage.attr('src'),
+            'alt': vars.currentImage.attr('alt')
+        }).show();
         slider.append(sliderImg);
 
         // Detect Window Resize
         $(window).resize(function() {
             slider.children('img').width(slider.width());
-            sliderImg.attr('src', vars.currentImage.attr('src'));
+            sliderImg.prop({
+                'src': vars.currentImage.attr('src'),
+                'alt': vars.currentImage.attr('alt')
+            });
             sliderImg.stop().height('auto');
             $('.nivo-slice').remove();
             $('.nivo-box').remove();
@@ -164,7 +170,10 @@
                 if($(this).hasClass('active')) return false;
                 clearInterval(timer);
                 timer = '';
-                sliderImg.attr('src', vars.currentImage.attr('src'));
+                sliderImg.prop({
+                    'src': vars.currentImage.attr('src'),
+                    'alt': vars.currentImage.attr('alt')
+                });
                 vars.currentSlide = $(this).attr('rel') - 1;
                 nivoRun(slider, kids, settings, 'control');
             });
@@ -187,7 +196,9 @@
         
         // Event when Animation finishes
         slider.bind('nivo:animFinished', function(){
-            sliderImg.attr('src', vars.currentImage.attr('src'));
+            sliderImg
+                .attr('src', vars.currentImage.attr('src'))
+                .attr('alt', vars.currentImage.attr('alt'));
             vars.running = false; 
             // Hide child links
             $(kids).each(function(){
@@ -209,7 +220,7 @@
         
         // Add slices for slice animations
         var createSlices = function(slider, settings, vars) {
-        	if($(vars.currentImage).parent().is('a')) $(vars.currentImage).parent().css('display','block');
+            if($(vars.currentImage).parent().is('a')) $(vars.currentImage).parent().css('display','block');
             $('img[src="'+ vars.currentImage.attr('src') +'"]', slider).not('.nivo-main-image,.nivo-control img').width(slider.width()).css('visibility', 'hidden').show();
             var sliceHeight = ($('img[src="'+ vars.currentImage.attr('src') +'"]', slider).not('.nivo-main-image,.nivo-control img').parent().is('a')) ? $('img[src="'+ vars.currentImage.attr('src') +'"]', slider).not('.nivo-main-image,.nivo-control img').parent().height() : $('img[src="'+ vars.currentImage.attr('src') +'"]', slider).not('.nivo-main-image,.nivo-control img').height();
 
@@ -247,7 +258,7 @@
         
         // Add boxes for box animations
         var createBoxes = function(slider, settings, vars){
-        	if($(vars.currentImage).parent().is('a')) $(vars.currentImage).parent().css('display','block');
+            if($(vars.currentImage).parent().is('a')) $(vars.currentImage).parent().css('display','block');
             $('img[src="'+ vars.currentImage.attr('src') +'"]', slider).not('.nivo-main-image,.nivo-control img').width(slider.width()).css('visibility', 'hidden').show();
             var boxWidth = Math.round(slider.width()/settings.boxCols),
                 boxHeight = Math.round($('img[src="'+ vars.currentImage.attr('src') +'"]', slider).not('.nivo-main-image,.nivo-control img').height() / settings.boxRows);
@@ -303,13 +314,22 @@
 
             // Set current background before change
             if(!nudge){
-                sliderImg.attr('src', vars.currentImage.attr('src'));
+                sliderImg.prop({
+                    'src': vars.currentImage.attr('src'),
+                    'alt': vars.currentImage.attr('alt')
+                });
             } else {
                 if(nudge === 'prev'){
-                    sliderImg.attr('src', vars.currentImage.attr('src'));
+                    sliderImg.prop({
+                        'src': vars.currentImage.attr('src'),
+                        'alt': vars.currentImage.attr('alt')
+                    });
                 }
                 if(nudge === 'next'){
-                    sliderImg.attr('src', vars.currentImage.attr('src'));
+                    sliderImg.prop({
+                        'src': vars.currentImage.attr('src'),
+                        'alt': vars.currentImage.attr('alt')
+                    });
                 }
             }
             
