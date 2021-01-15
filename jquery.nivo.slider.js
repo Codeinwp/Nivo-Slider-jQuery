@@ -75,13 +75,19 @@
         
         // Set first background
         var sliderImg = $('<img/>').addClass('nivo-main-image');
-        sliderImg.attr('src', vars.currentImage.attr('src')).show();
+        sliderImg.attr({
+            src : vars.currentImage.attr('src'),
+            alt : vars.currentImage.attr('alt')
+        }).show();
         slider.append(sliderImg);
 
         // Detect Window Resize
         $(window).resize(function() {
             slider.children('img').width(slider.width());
-            sliderImg.attr('src', vars.currentImage.attr('src'));
+            sliderImg.attr({
+                src : vars.currentImage.attr('src'),
+                alt : vars.currentImage.attr('alt')   
+            });
             sliderImg.stop().height('auto');
             $('.nivo-slice').remove();
             $('.nivo-box').remove();
@@ -164,7 +170,10 @@
                 if($(this).hasClass('active')) return false;
                 clearInterval(timer);
                 timer = '';
-                sliderImg.attr('src', vars.currentImage.attr('src'));
+                sliderImg.attr({
+                    src :  vars.currentImage.attr('src'),
+                    alt :  vars.currentImage.attr('alt')
+                });
                 vars.currentSlide = $(this).attr('rel') - 1;
                 nivoRun(slider, kids, settings, 'control');
             });
@@ -187,7 +196,10 @@
         
         // Event when Animation finishes
         slider.bind('nivo:animFinished', function(){
-            sliderImg.attr('src', vars.currentImage.attr('src'));
+            sliderImg.attr({
+                    src :  vars.currentImage.attr('src'),
+                    alt :  vars.currentImage.attr('alt')
+                });
             vars.running = false; 
             // Hide child links
             $(kids).each(function(){
