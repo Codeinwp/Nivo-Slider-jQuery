@@ -28,7 +28,9 @@
         slider.data('nivo:vars', vars).addClass('nivoSlider');
 
         // Find our slider children
-        var kids = slider.children();
+        var kids = slider.children().filter(function(kid){
+            return !$(kid).is('script');
+        });
         kids.each(function() {
             var child = $(this);
             var link = '';
