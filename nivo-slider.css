@@ -63,19 +63,28 @@
 	position:absolute;
 	left:0px;
 	bottom:0px;
-	background:#000;
 	color:#fff;
 	width:100%;
 	z-index:8;
-	padding: 5px 10px;
-	opacity: 0.8;
 	overflow: hidden;
-	display: none;
-	-moz-opacity: 0.8;
-	filter:alpha(opacity=8);
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
 	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
 	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+.nivo-caption .backdrop {
+	position: absolute;
+	background: #000;
+	bottom: 0;
+	height: 100%;
+	-moz-opacity: 0.8;
+	opacity: .8;
+	filter: alpha(opacity=8);
+	width: 100%;
+}
+.nivo-caption .nivo-caption-text {
+	display: none;
+	position: relative;
+	padding: 5px 10px;
 }
 .nivo-caption p {
 	padding:5px;
