@@ -495,8 +495,10 @@
                 
                 firstSlice = $('.nivo-slice:first', slider);
                 firstSlice.css({
-                    'width': '0px',
-                    'opacity': '1'
+                    'width': slider.width()*2,
+                    'opacity': '1',
+                    'left': '',
+                    'right': '0px'
                 });
 
                 firstSlice.animate({ width: slider.width() + 'px' }, (settings.animSpeed*2), '', function(){ slider.trigger('nivo:animFinished'); });
